@@ -33,8 +33,14 @@ int main(){
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 fin = 1;
                 break;
-            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-
+            case ALLEGRO_EVENT_KEY_DOWN : {
+                switch (event.keyboard.keycode) {
+                    case ALLEGRO_KEY_ESCAPE: {
+                        fin=1;
+                    }
+                        break;
+                    }
+                }
                 break;
             case ALLEGRO_EVENT_MOUSE_AXES:
 
