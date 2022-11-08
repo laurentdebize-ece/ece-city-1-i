@@ -1,5 +1,4 @@
 #include "affichage.h"
-#include "Structure.h"
 
 void affichageMap(){
     al_clear_to_color(al_map_rgb(255,255,255));
@@ -9,4 +8,9 @@ void affichageMap(){
                               al_map_rgb(0,0,0),2);
         }
     }
+}
+
+void affichageMenuPrincipal(Images images){
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(images.menuPrincipal,0,0,0);
 }

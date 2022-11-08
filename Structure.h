@@ -1,8 +1,6 @@
 #ifndef ECE_CITY_1_I_STRUCTURE_H
 #define ECE_CITY_1_I_STRUCTURE_H
 
-#include "affichage.h"
-#include "menu.h"
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -35,6 +33,11 @@ typedef struct {
     int capaciteElectricite;
 }informationJeu;
 
+typedef struct {
+    ALLEGRO_BITMAP *menuPrincipal
+}Images;
 
+#include "affichage.h"
+#include "menu.h"
 
 #endif //ECE_CITY_1_I_STRUCTURE_H
