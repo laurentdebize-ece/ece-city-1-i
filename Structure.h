@@ -1,10 +1,24 @@
 #ifndef ECE_CITY_1_I_STRUCTURE_H
 #define ECE_CITY_1_I_STRUCTURE_H
 
+#include "affichage.h"
+#include "menu.h"
+
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-
+#include <time.h>
+#include <stdlib.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#define HAUTEUR_FE 864
+#define LARGEUR_FE 1436
+#define NBLARGEURCASE 35
+#define NBLONGUEURCASE 45
+#define XDepart 50
+#define YDepart 50
+#define LARGEURCASE 20
 
 typedef struct {
     int chateauDeau;

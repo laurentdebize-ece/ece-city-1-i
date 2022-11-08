@@ -4,7 +4,7 @@ project(ece_city_1_i)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(ece_city_1_i
-        main.c Structure.h menu.c menu.h)
+        main.c Structure.h menu.c menu.h affichage.c affichage.h)
 
 IF(WIN32)
     target_link_libraries(ece_city_1_i -lmingw32 -lallegro-5.0.10-monolith-md-debug)
