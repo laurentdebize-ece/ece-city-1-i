@@ -101,14 +101,17 @@ void jeu(){
                             route = 0;
                             batiment = 0;
                         }
-                        definirCaseRoute(event, route, tabCase);
                         definirCaseBatiment(event, batiment, tabCase);
                     }
                 }
+                break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
                 etats.press=0;
+                break;
             case ALLEGRO_EVENT_MOUSE_AXES:
                 caseSouris(event,&x1,&x2,&y1,&y2);
+                int xMouse=event.mouse.x;
+                int yMouse=event.mouse.y;
                 break;
             case ALLEGRO_EVENT_TIMER:
                 if(etats.etatMenuPrincipal){
@@ -117,6 +120,9 @@ void jeu(){
                     affichageMode(images,fonts);
                 }else{
                     affichageMap();
+                    if(etats.press){
+                        definirCaseRoute(route,tabCase,xMouse,yMouse);
+                    }
                     al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(255,0,0));
                     if(route==1){
                         al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(0,0,0));

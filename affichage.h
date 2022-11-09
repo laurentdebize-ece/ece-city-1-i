@@ -4,7 +4,7 @@
 
 void affichageMap();
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
-void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
+void definirCaseRoute(int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE],int xMouse,int yMouse);
 void afficherRoute(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
 void definirCaseBatiment(ALLEGRO_EVENT event, int batiment, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
 void afficherBatiment(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);

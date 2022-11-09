@@ -34,13 +34,13 @@ void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2){
 
 }
 
-void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]){
+void definirCaseRoute(int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE],int xMouse,int yMouse){
     for (int i = 0; i < NBLARGEURCASE; i++) {
         for (int j = 0; j < NBLONGUEURCASE; j++) {
-            if (event.mouse.x >= XDepart + (j * LARGEURCASE) &&
-                event.mouse.x <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
-                event.mouse.y >= YDepart + (i * LARGEURCASE) &&
-                event.mouse.y <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
+            if (xMouse >= XDepart + (j * LARGEURCASE) &&
+                xMouse <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
+                yMouse >= YDepart + (i * LARGEURCASE) &&
+                yMouse <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
                 if (route==1){
                     tabCase[i][j].routePresente = 1;
                 }
