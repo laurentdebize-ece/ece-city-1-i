@@ -1,8 +1,7 @@
 #ifndef ECE_CITY_1_I_STRUCTURE_H
 #define ECE_CITY_1_I_STRUCTURE_H
 
-#include "affichage.h"
-#include "menu.h"
+
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -34,6 +33,14 @@ typedef struct {
     int capaciteEau;
     int capaciteElectricite;
 }informationJeu;
+
+typedef struct {
+    bool routePresente;
+    bool batimentPresent;
+    bool construisibilite;
+    int niveauBatiment;
+}Case;
+
 
 
 
