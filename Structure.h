@@ -47,7 +47,7 @@ typedef struct {
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,press;
 }Etats;
 
 typedef struct{
@@ -56,5 +56,6 @@ typedef struct{
 
 #include "affichage.h"
 #include "menu.h"
+#include "jeu.h"
 
 #endif //ECE_CITY_1_I_STRUCTURE_H
