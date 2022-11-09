@@ -4,11 +4,11 @@
 
 void affichageMap();
 
-void affichageMenuPrincipal(Images images);
+void affichageMenuPrincipal(Images images,Fonts fonts);
 
 void choixMenuPrincipal(Etats *etats,int x,int y);
 
-void affichageMode(Images images);
+void affichageMode(Images images,Fonts fonts);
 
 void choixMode(Etats *etats,int x,int y);
 

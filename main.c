@@ -10,26 +10,33 @@ int main(){
 
     Images images;
     Etats etats;
+    Fonts fonts;
 
     al_init();
     al_init_font_addon();
+    al_init_ttf_addon();
     al_init_primitives_addon();
     al_init_image_addon();
     al_install_keyboard();
     al_install_mouse();
-    int fin = 0;
 
     display = al_create_display(LARGEUR_FE, HAUTEUR_FE);
 
     queue = al_create_event_queue();
     timer = al_create_timer(0.1);
 
+    //Images
     images.menuPrincipal= al_load_bitmap("../Images/menuPrincipal.png");
 
+    //Booléens
+    etats.fin=0;
     etats.etatMenuPrincipal=1;
     etats.etatMode=1;
     etats.modeCapitaliste=0;
     etats.modeCommuniste=0;
+
+    //Fonts
+    fonts.font1= al_load_ttf_font("../Fonts/font1.ttf",40,0);
 
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -38,16 +45,16 @@ int main(){
 
     al_start_timer(timer);
 
-    while (fin == 0){
+    while (etats.fin == 0){
         al_wait_for_event(queue,&event);
         switch (event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                fin = 1;
+                etats.fin = 1;
                 break;
             case ALLEGRO_EVENT_KEY_DOWN : {
                 switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_ESCAPE: {
-                        fin=1;
+                        etats.fin=1;
                     }
                         break;
                     }
@@ -64,9 +71,9 @@ int main(){
                 }
             case ALLEGRO_EVENT_TIMER:
                 if(etats.etatMenuPrincipal){
-                    affichageMenuPrincipal(images);
+                    affichageMenuPrincipal(images,fonts);
                 } else if(etats.etatMode) {
-                    affichageMode(images);
+                    affichageMode(images,fonts);
                 }else{
                     affichageMap();
                 }
