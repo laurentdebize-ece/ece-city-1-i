@@ -34,8 +34,12 @@ typedef struct {
 }informationJeu;
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal
+    ALLEGRO_BITMAP *menuPrincipal;
 }Images;
+
+typedef struct{
+    bool etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste;
+}Etats;
 
 #include "affichage.h"
 #include "menu.h"

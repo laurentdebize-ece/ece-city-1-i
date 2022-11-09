@@ -2,7 +2,6 @@
 
 
 int main(){
-    bool etatMenuPrincipal=1;
 
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
@@ -10,6 +9,7 @@ int main(){
     ALLEGRO_TIMER* timer = NULL;
 
     Images images;
+    Etats etats;
 
     al_init();
     al_init_font_addon();
@@ -25,6 +25,11 @@ int main(){
     timer = al_create_timer(0.1);
 
     images.menuPrincipal= al_load_bitmap("../Images/menuPrincipal.png");
+
+    etats.etatMenuPrincipal=1;
+    etats.etatMode=1;
+    etats.modeCapitaliste=0;
+    etats.modeCommuniste=0;
 
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -51,10 +56,18 @@ int main(){
             case ALLEGRO_EVENT_MOUSE_AXES:
 
                 break;
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+                if(etats.etatMenuPrincipal){
+                    choixMenuPrincipal(&etats,event.mouse.x,event.mouse.y);
+                } else if(etats.etatMode){
+                    choixMode(&etats,event.mouse.x,event.mouse.y);
+                }
             case ALLEGRO_EVENT_TIMER:
-                if(etatMenuPrincipal){
+                if(etats.etatMenuPrincipal){
                     affichageMenuPrincipal(images);
-                } else {
+                } else if(etats.etatMode) {
+                    affichageMode(images);
+                }else{
                     affichageMap();
                 }
                 al_flip_display();
