@@ -34,7 +34,7 @@ typedef struct {
 }informationJeu;
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump;
 }Images;
 
 typedef struct{

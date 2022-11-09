@@ -26,7 +26,9 @@ int main(){
     timer = al_create_timer(0.1);
 
     //Images
-    images.menuPrincipal= al_load_bitmap("../Images/menuPrincipal.png");
+    images.menuPrincipal= al_load_bitmap("../Images/menuPrincipal1.png");
+    images.staline= al_load_bitmap("../Images/Staline.png");
+    images.trump= al_load_bitmap("../Images/Trump.png");
 
     //Booléens
     etats.fin=0;
