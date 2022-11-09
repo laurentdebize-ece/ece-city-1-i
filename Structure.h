@@ -11,8 +11,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 864
-#define LARGEUR_FE 1436
+#define HAUTEUR_FE 768
+#define LARGEUR_FE 1024
 #define NBLARGEURCASE 35
 #define NBLONGUEURCASE 45
 #define XDepart 50
@@ -42,6 +42,19 @@ typedef struct {
 }Case;
 
 
+typedef struct {
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump;
+}Images;
 
+typedef struct{
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste;
+}Etats;
+
+typedef struct{
+    ALLEGRO_FONT *font1;
+}Fonts;
+
+#include "affichage.h"
+#include "menu.h"
 
 #endif //ECE_CITY_1_I_STRUCTURE_H
