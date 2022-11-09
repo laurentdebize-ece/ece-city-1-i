@@ -38,7 +38,7 @@ void affichageMode(Images images,Fonts fonts){
 }
 
 void choixMode(Etats *etats,int x,int y){
-    if((x>0 && x<LARGEUR_FE)&&(y>0 && y<HAUTEUR_FE)){
+    if(((x>0 && x<LARGEUR_FE/2)&&(y>0 && y<HAUTEUR_FE-50)) || ((x>150 && x<LARGEUR_FE/2) && (y>0 && y<HAUTEUR_FE))){
         etats->modeCapitaliste=1;
         etats->etatMode=0;
     }
