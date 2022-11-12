@@ -43,11 +43,11 @@ typedef struct {
 
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches;
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage;
 }Etats;
 
 typedef struct{
