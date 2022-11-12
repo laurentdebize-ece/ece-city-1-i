@@ -43,7 +43,7 @@ typedef struct {
 
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison;
 }Images;
 
 typedef struct{
@@ -51,7 +51,7 @@ typedef struct{
 }Etats;
 
 typedef struct{
-    ALLEGRO_FONT *font1;
+    ALLEGRO_FONT *font1,*font2;
 }Fonts;
 
 #include "affichage.h"

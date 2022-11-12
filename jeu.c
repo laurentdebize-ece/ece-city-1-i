@@ -48,6 +48,9 @@ void jeu(){
     images.staline= al_load_bitmap("../Images/Staline.png");
     images.trump= al_load_bitmap("../Images/Trump.png");
     images.map= al_load_bitmap("../Images/map.png");
+    images.route1= al_load_bitmap("../Images/route.png");
+    images.route2= al_load_bitmap("../Images/route2.png");
+    images.maison= al_load_bitmap("../Images/maison.png");
 
     //Booléens
     etats.fin=0;
@@ -59,6 +62,7 @@ void jeu(){
 
     //Fonts
     fonts.font1= al_load_ttf_font("../Fonts/font1.ttf",40,0);
+    fonts.font2= al_load_ttf_font("../Fonts/font1.ttf",20,0);
 
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -101,11 +105,12 @@ void jeu(){
                         if (event.mouse.x >= LARGEUR_FE-65 && event.mouse.x <= LARGEUR_FE-15
                             && event.mouse.y >= 50 && event.mouse.y <= 100) {
                             route = 1;
+                            batiment=0;
                         }
-
                         if (event.mouse.x >= LARGEUR_FE-65 && event.mouse.x <= LARGEUR_FE-15
                             && event.mouse.y >= 250 && event.mouse.y <= 300) {
                             batiment = 1;
+                            route=0;
                         }
                         if (event.mouse.x >= LARGEUR_FE-65 && event.mouse.x <= LARGEUR_FE-15
                             && event.mouse.y >= 150 && event.mouse.y <= 200) {
@@ -132,16 +137,17 @@ void jeu(){
                     afficherMenuEchap(fonts);
                     } else{
                     affichageMap(images);
+                    afficherDetailsConstruction(fonts,xMouse,yMouse);
                     definirCaseRoute(route,tabCase,xMouse,yMouse,mouse.buttons);
                     al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(255,0,0));
                     if(route==1){
-                        al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(0,0,0));
+                        al_draw_bitmap(images.route1,x1,y1,0);
                     }
                     if (batiment==1){
                         al_draw_filled_rectangle(x1,y1,x2+LARGEURCASE*2,y2+LARGEURCASE*2, al_map_rgb(0,255,0));
 
                     }
-                    afficherRoute(tabCase);
+                    afficherRoute(tabCase,images);
                     afficherBatiment(tabCase);
                 }
                 al_flip_display();
