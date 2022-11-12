@@ -11,8 +11,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 864
-#define LARGEUR_FE 1464
+#define HAUTEUR_FE 764
+#define LARGEUR_FE 1024
 #define NBLARGEURCASE 35
 #define NBLONGUEURCASE 45
 #define XDepart 50
@@ -43,11 +43,11 @@ typedef struct {
 
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map;
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,press;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap;
 }Etats;
 
 typedef struct{
