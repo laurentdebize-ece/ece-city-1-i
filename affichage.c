@@ -1,7 +1,8 @@
 #include "affichage.h"
 
-void affichageMap(){
+void affichageMap(Images images){
     al_clear_to_color(al_map_rgb(255,255,255));
+    al_draw_bitmap(images.map,XDepart,YDepart,0);
     for (int i = 0; i < NBLARGEURCASE; i++) {
         for (int j = 0; j < NBLONGUEURCASE; j++){
             al_draw_rectangle(XDepart + (j*LARGEURCASE), YDepart + (i*LARGEURCASE), XDepart+ LARGEURCASE + (j*LARGEURCASE), YDepart + LARGEURCASE + (i*LARGEURCASE),
@@ -9,9 +10,9 @@ void affichageMap(){
 
         }
     }
-    al_draw_filled_rectangle(1150,50,1200,100, al_map_rgb(0,0,0));
-    al_draw_filled_rectangle(1150,150,1200,200, al_map_rgb(255,0,0));
-    al_draw_filled_rectangle(1150,250,1200,300, al_map_rgb(0,255,0));
+    al_draw_bitmap(images.route2,LARGEUR_FE-65,50,0);
+    al_draw_filled_rectangle(LARGEUR_FE-65,150,LARGEUR_FE-15,200, al_map_rgb(255,0,0));
+    al_draw_bitmap(images.maison,LARGEUR_FE-65,250,0);
 }
 
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2){
@@ -34,15 +35,21 @@ void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2){
 
 }
 
-void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]){
+void definirCaseRoute(int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE],int xMouse,int yMouse,int bouton){
     for (int i = 0; i < NBLARGEURCASE; i++) {
         for (int j = 0; j < NBLONGUEURCASE; j++) {
-            if (event.mouse.x >= XDepart + (j * LARGEURCASE) &&
-                event.mouse.x <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
-                event.mouse.y >= YDepart + (i * LARGEURCASE) &&
-                event.mouse.y <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
-                if (route==1){
-                    tabCase[i][j].routePresente = 1;
+            if (xMouse >= XDepart + (j * LARGEURCASE) &&
+                xMouse <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
+                yMouse >= YDepart + (i * LARGEURCASE) &&
+                yMouse <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
+                if(bouton ==1) {
+                    if (route == 1) {
+                        tabCase[i][j].routePresente = 1;
+                    }
+                }else if(bouton==2){
+                    if (route == 1) {
+                        tabCase[i][j].routePresente = 0;
+                    }
                 }
 
             }
@@ -52,11 +59,11 @@ void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBLARGEURCASE
     }
 }
 
-void afficherRoute(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]){
+void afficherRoute(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE],Images images){
     for (int i = 0; i < NBLARGEURCASE; i++) {
         for (int j = 0; j < NBLONGUEURCASE; j++) {
             if (tabCase[i][j].routePresente == 1 && tabCase[i][j].batimentPresent==0){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE),YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(0,0,0));
+                al_draw_bitmap(images.route1,XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),0);
             }
 
         }
@@ -142,5 +149,34 @@ void choixMode(Etats *etats,int x,int y){
     }
     if((x>0 && x<150) && (y>HAUTEUR_FE-50 && y<HAUTEUR_FE)){
         etats->etatMenuPrincipal=1;
+    }
+}
+
+void afficherMenuEchap(Fonts fonts){
+    al_draw_filled_rectangle(LARGEUR_FE/2 -200,HAUTEUR_FE/2 -200,LARGEUR_FE/2 +200,HAUTEUR_FE/2 +200, al_map_rgb(169,169,169));
+    al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -50,HAUTEUR_FE/2 -175,0,"Pause");
+    al_draw_filled_rectangle(LARGEUR_FE/2 -100,HAUTEUR_FE/2 -100,LARGEUR_FE/2 +100,HAUTEUR_FE/2, al_map_rgb(0,0,0));
+    al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -70,HAUTEUR_FE/2 -75,0,"Continuer");
+    al_draw_filled_rectangle(LARGEUR_FE/2 -100,HAUTEUR_FE/2 +25,LARGEUR_FE/2 +100,HAUTEUR_FE/2 +125, al_map_rgb(0,0,0));
+    al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -50,HAUTEUR_FE/2 +50,0,"Quitter");
+}
+
+void choixMenuEchap(Etats *etats,int x, int y){
+    if((x>LARGEUR_FE/2 -100 && x<LARGEUR_FE/2 +100)&&(y>HAUTEUR_FE/2 -100 && y<HAUTEUR_FE/2)){
+        etats->etatEchap=0;
+    }
+    if((x>LARGEUR_FE/2 -100 && x<LARGEUR_FE/2 +100)&&(y>HAUTEUR_FE/2 +25 && y<HAUTEUR_FE/2 +125)){
+        etats->fin=1;
+    }
+}
+
+void afficherDetailsConstruction(Fonts fonts,int x,int y){
+    if ((x > LARGEUR_FE-65 && x < LARGEUR_FE-15) && (y > 50 && y < 100)) {
+        al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
+        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Routes");
+    }
+    if ((x >LARGEUR_FE-65 && x<LARGEUR_FE-15) && (y >250 && y <300)) {
+        al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
+        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Cabane");
     }
 }
