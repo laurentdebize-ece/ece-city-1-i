@@ -67,6 +67,7 @@ void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBHAUTEURCASE
                     tabCase[i][j].routePresente = 1;
                     tabCase[i][j].construisibilite = 0;
                 }
+
             }
 
         }
@@ -314,5 +315,34 @@ void choixMode(Etats *etats,int x,int y){
     }
     if((x>0 && x<150) && (y>HAUTEUR_FE-50 && y<HAUTEUR_FE)){
         etats->etatMenuPrincipal=1;
+    }
+}
+
+void afficherMenuEchap(Fonts fonts){
+    al_draw_filled_rectangle(LARGEUR_FE/2 -200,HAUTEUR_FE/2 -200,LARGEUR_FE/2 +200,HAUTEUR_FE/2 +200, al_map_rgb(169,169,169));
+    al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -50,HAUTEUR_FE/2 -175,0,"Pause");
+    al_draw_filled_rectangle(LARGEUR_FE/2 -100,HAUTEUR_FE/2 -100,LARGEUR_FE/2 +100,HAUTEUR_FE/2, al_map_rgb(0,0,0));
+    al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -70,HAUTEUR_FE/2 -75,0,"Continuer");
+    al_draw_filled_rectangle(LARGEUR_FE/2 -100,HAUTEUR_FE/2 +25,LARGEUR_FE/2 +100,HAUTEUR_FE/2 +125, al_map_rgb(0,0,0));
+    al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -50,HAUTEUR_FE/2 +50,0,"Quitter");
+}
+
+void choixMenuEchap(Etats *etats,int x, int y){
+    if((x>LARGEUR_FE/2 -100 && x<LARGEUR_FE/2 +100)&&(y>HAUTEUR_FE/2 -100 && y<HAUTEUR_FE/2)){
+        etats->etatEchap=0;
+    }
+    if((x>LARGEUR_FE/2 -100 && x<LARGEUR_FE/2 +100)&&(y>HAUTEUR_FE/2 +25 && y<HAUTEUR_FE/2 +125)){
+        etats->fin=1;
+    }
+}
+
+void afficherDetailsConstruction(Fonts fonts,int x,int y){
+    if ((x > LARGEUR_FE-65 && x < LARGEUR_FE-15) && (y > 50 && y < 100)) {
+        al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
+        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Routes");
+    }
+    if ((x >LARGEUR_FE-65 && x<LARGEUR_FE-15) && (y >250 && y <300)) {
+        al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
+        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Cabane");
     }
 }

@@ -45,18 +45,19 @@ typedef struct {
 
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison;
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap;
 }Etats;
 
 typedef struct{
-    ALLEGRO_FONT *font1;
+    ALLEGRO_FONT *font1,*font2;
 }Fonts;
 
 #include "affichage.h"
 #include "menu.h"
+#include "jeu.h"
 
 #endif //ECE_CITY_1_I_STRUCTURE_H

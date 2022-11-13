@@ -21,4 +21,10 @@ void affichageMode(Images images,Fonts fonts);
 
 void choixMode(Etats *etats,int x,int y);
 
+void afficherMenuEchap(Fonts fonts);
+
+void choixMenuEchap(Etats *etats,int x,int y);
+
+void afficherDetailsConstruction(Fonts fonts,int x ,int y);
+
 #endif //ECE_CITY_1_I_AFFICHAGE_H
