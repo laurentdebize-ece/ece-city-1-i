@@ -2,12 +2,16 @@
 #define ECE_CITY_1_I_AFFICHAGE_H
 #include "Structure.h"
 
-void affichageMap();
+void affichageMap(Fonts fonts);
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
-void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
-void afficherRoute(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
-void definirCaseBatiment(ALLEGRO_EVENT event, int batiment, Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
-void afficherBatiment(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]);
+void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison);
+void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void definirCaseBatiment(ALLEGRO_EVENT event, int batiment, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherBatiment(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherCaseCurseur(int x1,int x2,int y1,int y2, int curseur, int route, int habitation, int batiment,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherCompteur(Fonts fonts, int* compteur, int* chrono);
 
 void affichageMenuPrincipal(Images images,Fonts fonts);
 
