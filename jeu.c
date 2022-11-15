@@ -32,8 +32,6 @@ void jeu(){
     int x2 = 0;
     int y1 = 0;
     int y2=0;
-    int route = 0;
-    int batiment = 0;
     Case tabCase[NBLARGEURCASE][NBLONGUEURCASE];
 
     initialisationCase(tabCase);
@@ -57,6 +55,9 @@ void jeu(){
     images.eau= al_load_bitmap("../Images/eau.png");
     images.couches= al_load_bitmap("../Images/couches.png");
     images.boutonCouches= al_load_bitmap("../Images/boutonCouches.png");
+    images.usine= al_load_bitmap("../Images/usine.png");
+    images.chateau= al_load_bitmap("../Images/chateau.png");
+    images.bulldozer= al_load_bitmap("../Images/bulldozer.png");
 
     //Booléens
     etats.fin=0;
@@ -69,6 +70,10 @@ void jeu(){
     etats.couche2=0;
     etats.couche3=0;
     etats.etatBoutonReglage=0;
+    etats.etatCouche=0;
+    etats.route=0;
+    etats.batiment=0;
+    etats.etatNoClick=0;
 
     //Fonts
     fonts.font1= al_load_ttf_font("../Fonts/font1.ttf",40,0);
@@ -112,36 +117,11 @@ void jeu(){
                     choixMenuEchap(&etats, event.mouse.x, event.mouse.y);
                 } else {
                     choixJeu(&etats,event.mouse.x,event.mouse.y);
-                    if(etats.etatBoutonReglage){
-                        choixMenuBoutonCouches(&etats,event.mouse.x,event.mouse.y);
+                    if(etats.etatBoutonReglage) {
+                            choixBoutonOutil(&etats,event.mouse.x,event.mouse.y);
                     }
-                    if (etats.couche1) {
-                        if ((event.mouse.button & 1) == 1) {
-                            if (event.mouse.x >= LARGEUR_FE - 65 && event.mouse.x <= LARGEUR_FE - 15
-                                && event.mouse.y >= 50 && event.mouse.y <= 100) {
-                                if(route){
-                                    route=0;
-                                }else {
-                                    route = 1;
-                                }
-                                batiment = 0;
-                            }
-                            if (event.mouse.x >= LARGEUR_FE - 65 && event.mouse.x <= LARGEUR_FE - 15
-                                && event.mouse.y >= 250 && event.mouse.y <= 300) {
-                                if(batiment){
-                                    batiment=0;
-                                } else {
-                                    batiment = 1;
-                                }
-                                route = 0;
-                            }
-                            if (event.mouse.x >= LARGEUR_FE - 65 && event.mouse.x <= LARGEUR_FE - 15
-                                && event.mouse.y >= 150 && event.mouse.y <= 200) {
-                                route = 0;
-                                batiment = 0;
-                            }
-                            definirCaseBatiment(event, batiment, tabCase);
-                        }
+                    if (etats.couche1 && !etats.etatNoClick) {
+                            definirCaseBatiment(event, etats.batiment, tabCase);
                     }
                 }
                 break;
@@ -162,26 +142,38 @@ void jeu(){
                 } else {
                     al_clear_to_color(al_map_rgb(255, 255, 255));
                     if (etats.couche1) {
+                        if(etats.etatBoutonReglage){
+                            if((etats.etatCouche && (xMouse<LARGEUR_FE - 145 && yMouse>HAUTEUR_FE - 105
+                            && xMouse>LARGEUR_FE - 340 && yMouse<HAUTEUR_FE - 45)) || (xMouse<LARGEUR_FE - 65
+                            && yMouse<HAUTEUR_FE - 45 && xMouse>LARGEUR_FE - 275 && yMouse>HAUTEUR_FE - 165)){
+                                etats.etatNoClick=1;
+                            }else{
+                                etats.etatNoClick=0;
+                            }
+                        }else{
+                            etats.etatNoClick=0;
+                        }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
                         afficherPremiereCouche(images, fonts);
-                        if (route) {
+                        if (etats.route) {
                             al_draw_bitmap(images.route1, x1, y1, 0);
                         }
-                        if (batiment) {
+                        if (etats.batiment) {
                             al_draw_filled_rectangle(x1, y1, x2 + LARGEURCASE * 2, y2 + LARGEURCASE * 2,
                                                      al_map_rgb(0, 255, 0));
 
                         }
-                        if(!route && !batiment) {
+                        if(!etats.route && !etats.batiment) {
                             al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255, 0, 0));
                         }
-                        afficherDetailsConstruction(fonts, xMouse, yMouse);
-                        definirCaseRoute(route, tabCase, xMouse, yMouse, mouse.buttons);
+                        if(!etats.etatNoClick) {
+                            definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons);
+                        }
                         afficherRoute(tabCase, images);
                         afficherBatiment(tabCase);
                     } else if (etats.couche2) {
-                        afficherDeuxiemeCouche(images);
+                        afficherDeuxiemeCouche(images,fonts);
                     } else if (etats.couche3) {
-                        afficherTroisiemeCouche(images);
+                        afficherTroisiemeCouche(images,fonts);
                     }
                     affichageMap(images,etats,fonts,xMouse,yMouse);
                 }
