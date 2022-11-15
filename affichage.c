@@ -1,8 +1,6 @@
 #include "affichage.h"
 
-void affichageMap(Images images){
-    al_clear_to_color(al_map_rgb(255,255,255));
-    al_draw_bitmap(images.map,XDepart,YDepart,0);
+void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y){
     for (int i = 0; i < NBLARGEURCASE; i++) {
         for (int j = 0; j < NBLONGUEURCASE; j++){
             al_draw_rectangle(XDepart + (j*LARGEURCASE), YDepart + (i*LARGEURCASE), XDepart+ LARGEURCASE + (j*LARGEURCASE), YDepart + LARGEURCASE + (i*LARGEURCASE),
@@ -10,9 +8,10 @@ void affichageMap(Images images){
 
         }
     }
-    al_draw_bitmap(images.route2,LARGEUR_FE-65,50,0);
-    al_draw_filled_rectangle(LARGEUR_FE-65,150,LARGEUR_FE-15,200, al_map_rgb(255,0,0));
-    al_draw_bitmap(images.maison,LARGEUR_FE-65,250,0);
+    al_draw_bitmap(images.roue,LARGEUR_FE-65,HAUTEUR_FE-100,0);
+    if(etats.etatBoutonReglage){
+        afficherMenuBoutonOutil(images, &etats,fonts,x,y);
+    }
 }
 
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2){
@@ -170,13 +169,135 @@ void choixMenuEchap(Etats *etats,int x, int y){
     }
 }
 
-void afficherDetailsConstruction(Fonts fonts,int x,int y){
-    if ((x > LARGEUR_FE-65 && x < LARGEUR_FE-15) && (y > 50 && y < 100)) {
-        al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
-        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Routes");
+void afficherPremiereCouche(Images images,Fonts fonts){
+    al_draw_bitmap(images.map,XDepart,YDepart,0);
+    al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Surface");
+}
+
+void afficherDeuxiemeCouche(Images images,Fonts fonts){
+    al_draw_bitmap(images.couches,XDepart,YDepart,0);
+    al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Electricité");
+}
+
+void afficherTroisiemeCouche(Images images,Fonts fonts){
+    al_draw_bitmap(images.couches,XDepart,YDepart,0);
+    al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Eau");
+}
+
+void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y){
+    al_draw_filled_rectangle(LARGEUR_FE-65,HAUTEUR_FE-105,LARGEUR_FE-145,HAUTEUR_FE-45, al_map_rgb(169,169,169));
+    al_draw_bitmap(images.boutonCouches,LARGEUR_FE-130,HAUTEUR_FE-100,0);
+    if(!etats->etatCouche) {
+        if (etats->couche1) {
+            al_draw_filled_rectangle(LARGEUR_FE - 65, HAUTEUR_FE - 105, LARGEUR_FE - 275, HAUTEUR_FE - 165,
+                                     al_map_rgb(169, 169, 169));
+            al_draw_filled_rectangle(LARGEUR_FE - 145, HAUTEUR_FE - 105, LARGEUR_FE - 275, HAUTEUR_FE - 45,
+                                     al_map_rgb(169, 169, 169));
+            al_draw_bitmap(images.route2, LARGEUR_FE - 195, HAUTEUR_FE - 100, 0);
+            al_draw_bitmap(images.maison, LARGEUR_FE - 260, HAUTEUR_FE - 100, 0);
+            al_draw_bitmap(images.chateau, LARGEUR_FE - 130, HAUTEUR_FE - 160, 0);
+            al_draw_bitmap(images.usine, LARGEUR_FE - 195, HAUTEUR_FE - 160, 0);
+            al_draw_bitmap(images.bulldozer, LARGEUR_FE - 260, HAUTEUR_FE - 160, 0);
+            if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+                al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
+                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Route");
+            }
+            if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+                al_draw_filled_rectangle(x-40,y-20,x+40,y, al_map_rgb(169,169,169));
+                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-35,y-20,0,"Batiment");
+            }
+            if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+                al_draw_filled_rectangle(x-60,y-20,x+60,y, al_map_rgb(169,169,169));
+                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-55,y-20,0,"Chateau d'eau");
+            }
+            if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+                al_draw_filled_rectangle(x-27,y-20,x+27,y, al_map_rgb(169,169,169));
+                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-22,y-20,0,"Usine");
+            }
+            if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+                al_draw_filled_rectangle(x-35,y-20,x+35,y, al_map_rgb(169,169,169));
+                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-30,y-20,0,"Demolir");
+            }
+        }
+    } else{
+        al_draw_filled_rectangle(LARGEUR_FE - 145, HAUTEUR_FE - 105, LARGEUR_FE - 340, HAUTEUR_FE - 45,
+                                 al_map_rgb(169, 169, 169));
+        al_draw_bitmap(images.herbe,LARGEUR_FE-195,HAUTEUR_FE-100,0);
+        al_draw_bitmap(images.eclair,LARGEUR_FE-260,HAUTEUR_FE-100,0);
+        al_draw_bitmap(images.eau,LARGEUR_FE-325,HAUTEUR_FE-100,0);
+        if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+            al_draw_filled_rectangle(x-35,y-20,x+35,y, al_map_rgb(169,169,169));
+            al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-30,y-20,0,"Surface");
+        }
+        if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+            al_draw_filled_rectangle(x-45,y-20,x+45,y, al_map_rgb(169,169,169));
+            al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-40,y-20,0,"Electricité");
+        }
+        if((x>LARGEUR_FE-325 && x<LARGEUR_FE-275) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+            al_draw_filled_rectangle(x-25,y-20,x+25,y, al_map_rgb(169,169,169));
+            al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-20,y-20,0,"Eau");
+        }
     }
-    if ((x >LARGEUR_FE-65 && x<LARGEUR_FE-15) && (y >250 && y <300)) {
-        al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
-        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Cabane");
+    if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+        al_draw_filled_rectangle(x-35,y-20,x+35,y, al_map_rgb(169,169,169));
+        al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-30,y-20,0,"Couches");
+    }
+}
+
+void choixJeu(Etats *etats,int x,int y){
+    if((x>LARGEUR_FE-65 && x<LARGEUR_FE-15)&&(y>HAUTEUR_FE-100 && y<HAUTEUR_FE-40)){
+        if(etats->etatBoutonReglage){
+            etats->etatBoutonReglage=0;
+        }else {
+            etats->etatBoutonReglage=1;
+        }
+    }
+}
+
+void choixMenuBoutonCouches(Etats *etats,int x,int y){
+    if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+        etats->couche3=0;
+        etats->couche1=1;
+        etats->couche2=0;
+    }//Surface
+    if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+        etats->couche3=0;
+        etats->couche1=0;
+        etats->couche2=1;
+    }//Electricité
+    if((x>LARGEUR_FE-325 && x<LARGEUR_FE-275) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+        etats->couche3=1;
+        etats->couche1=0;
+        etats->couche2=0;
+    }//Eau
+}
+
+void choixBoutonOutil(Etats *etats,int x,int y){
+    if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
+        if(etats->etatCouche) {
+            etats->etatCouche = 0;
+        }else{
+            etats->etatCouche=1;
+        }
+    }
+    if(!etats->etatCouche) {
+        if ((x > LARGEUR_FE - 195 && x < LARGEUR_FE - 145) && (y > HAUTEUR_FE - 100 && y < HAUTEUR_FE - 50)) {
+            if (etats->route) {
+                etats->route = 0;
+            } else {
+                etats->route = 1;
+            }
+            etats->batiment=0;
+        }//route
+        if ((x > LARGEUR_FE - 260 && x < LARGEUR_FE - 210) && (y > HAUTEUR_FE - 100 && y < HAUTEUR_FE - 50)) {
+            if (etats->batiment) {
+                etats->batiment = 0;
+            } else {
+                etats->batiment = 1;
+            }
+            etats->route=0;
+        }//Batiment
+    }else{
+        choixMenuBoutonCouches(etats,x,y);
     }
 }

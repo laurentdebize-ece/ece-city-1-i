@@ -32,8 +32,6 @@ void jeu(){
     int x2 = 0;
     int y1 = 0;
     int y2=0;
-    int route = 0;
-    int batiment = 0;
     Case tabCase[NBLARGEURCASE][NBLONGUEURCASE];
 
     initialisationCase(tabCase);
@@ -51,6 +49,15 @@ void jeu(){
     images.route1= al_load_bitmap("../Images/route.png");
     images.route2= al_load_bitmap("../Images/route2.png");
     images.maison= al_load_bitmap("../Images/maison.png");
+    images.roue= al_load_bitmap("../Images/roueDentee.png");
+    images.herbe= al_load_bitmap("../Images/herbe.png");
+    images.eclair= al_load_bitmap("../Images/éclair.png");
+    images.eau= al_load_bitmap("../Images/eau.png");
+    images.couches= al_load_bitmap("../Images/couches.png");
+    images.boutonCouches= al_load_bitmap("../Images/boutonCouches.png");
+    images.usine= al_load_bitmap("../Images/usine.png");
+    images.chateau= al_load_bitmap("../Images/chateau.png");
+    images.bulldozer= al_load_bitmap("../Images/bulldozer.png");
 
     //Booléens
     etats.fin=0;
@@ -59,6 +66,14 @@ void jeu(){
     etats.modeCapitaliste=0;
     etats.modeCommuniste=0;
     etats.etatEchap=0;
+    etats.couche1=1;
+    etats.couche2=0;
+    etats.couche3=0;
+    etats.etatBoutonReglage=0;
+    etats.etatCouche=0;
+    etats.route=0;
+    etats.batiment=0;
+    etats.etatNoClick=0;
 
     //Fonts
     fonts.font1= al_load_ttf_font("../Fonts/font1.ttf",40,0);
@@ -82,10 +97,10 @@ void jeu(){
             case ALLEGRO_EVENT_KEY_DOWN:
                 switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_ESCAPE: {
-                        if(!etats.etatMode){
-                            if(etats.etatEchap){
-                                etats.etatEchap=0;
-                            }else {
+                        if (!etats.etatMode) {
+                            if (etats.etatEchap) {
+                                etats.etatEchap = 0;
+                            } else {
                                 etats.etatEchap = 1;
                             }
                         }
@@ -94,67 +109,80 @@ void jeu(){
                 }
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-                if(etats.etatMenuPrincipal){
-                    choixMenuPrincipal(&etats,event.mouse.x,event.mouse.y);
-                } else if(etats.etatMode){
-                    choixMode(&etats,event.mouse.x,event.mouse.y);
-                }else if(etats.etatEchap) {
+                if (etats.etatMenuPrincipal) {
+                    choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y);
+                } else if (etats.etatMode) {
+                    choixMode(&etats, event.mouse.x, event.mouse.y);
+                } else if (etats.etatEchap) {
                     choixMenuEchap(&etats, event.mouse.x, event.mouse.y);
-                }else{
-                    if ((event.mouse.button & 1) == 1) {
-                        if (event.mouse.x >= LARGEUR_FE-65 && event.mouse.x <= LARGEUR_FE-15
-                            && event.mouse.y >= 50 && event.mouse.y <= 100) {
-                            route = 1;
-                            batiment=0;
-                        }
-                        if (event.mouse.x >= LARGEUR_FE-65 && event.mouse.x <= LARGEUR_FE-15
-                            && event.mouse.y >= 250 && event.mouse.y <= 300) {
-                            batiment = 1;
-                            route=0;
-                        }
-                        if (event.mouse.x >= LARGEUR_FE-65 && event.mouse.x <= LARGEUR_FE-15
-                            && event.mouse.y >= 150 && event.mouse.y <= 200) {
-                            route = 0;
-                            batiment = 0;
-                        }
-                        definirCaseBatiment(event, batiment, tabCase);
+                } else {
+                    choixJeu(&etats,event.mouse.x,event.mouse.y);
+                    if(etats.etatBoutonReglage) {
+                            choixBoutonOutil(&etats,event.mouse.x,event.mouse.y);
+                    }
+                    if (etats.couche1 && !etats.etatNoClick) {
+                            definirCaseBatiment(event, etats.batiment, tabCase);
                     }
                 }
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
                 break;
             case ALLEGRO_EVENT_MOUSE_AXES:
-                caseSouris(event,&x1,&x2,&y1,&y2);
-                int xMouse=event.mouse.x;
-                int yMouse=event.mouse.y;
+                caseSouris(event, &x1, &x2, &y1, &y2);
+                int xMouse = event.mouse.x;
+                int yMouse = event.mouse.y;
                 break;
-            case ALLEGRO_EVENT_TIMER:
-                if(etats.etatMenuPrincipal){
-                    affichageMenuPrincipal(images,fonts);
-                } else if(etats.etatMode) {
-                    affichageMode(images,fonts);
-                }else if(etats.etatEchap){
+            case ALLEGRO_EVENT_TIMER: {
+                if (etats.etatMenuPrincipal) {
+                    affichageMenuPrincipal(images, fonts);
+                } else if (etats.etatMode) {
+                    affichageMode(images, fonts);
+                } else if (etats.etatEchap) {
                     afficherMenuEchap(fonts);
-                    } else{
-                    affichageMap(images);
-                    afficherDetailsConstruction(fonts,xMouse,yMouse);
-                    definirCaseRoute(route,tabCase,xMouse,yMouse,mouse.buttons);
-                    al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(255,0,0));
-                    if(route==1){
-                        al_draw_bitmap(images.route1,x1,y1,0);
-                    }
-                    if (batiment==1){
-                        al_draw_filled_rectangle(x1,y1,x2+LARGEURCASE*2,y2+LARGEURCASE*2, al_map_rgb(0,255,0));
+                } else {
+                    al_clear_to_color(al_map_rgb(255, 255, 255));
+                    if (etats.couche1) {
+                        if(etats.etatBoutonReglage){
+                            if((etats.etatCouche && (xMouse<LARGEUR_FE - 145 && yMouse>HAUTEUR_FE - 105
+                            && xMouse>LARGEUR_FE - 340 && yMouse<HAUTEUR_FE - 45)) || (xMouse<LARGEUR_FE - 65
+                            && yMouse<HAUTEUR_FE - 45 && xMouse>LARGEUR_FE - 275 && yMouse>HAUTEUR_FE - 165)){
+                                etats.etatNoClick=1;
+                            }else{
+                                etats.etatNoClick=0;
+                            }
+                        }else{
+                            etats.etatNoClick=0;
+                        }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
+                        afficherPremiereCouche(images, fonts);
+                        if (etats.route) {
+                            al_draw_bitmap(images.route1, x1, y1, 0);
+                        }
+                        if (etats.batiment) {
+                            al_draw_filled_rectangle(x1, y1, x2 + LARGEURCASE * 2, y2 + LARGEURCASE * 2,
+                                                     al_map_rgb(0, 255, 0));
 
+                        }
+                        if(!etats.route && !etats.batiment) {
+                            al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255, 0, 0));
+                        }
+                        if(!etats.etatNoClick) {
+                            definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons);
+                        }
+                        afficherRoute(tabCase, images);
+                        afficherBatiment(tabCase);
+                    } else if (etats.couche2) {
+                        afficherDeuxiemeCouche(images,fonts);
+                    } else if (etats.couche3) {
+                        afficherTroisiemeCouche(images,fonts);
                     }
-                    afficherRoute(tabCase,images);
-                    afficherBatiment(tabCase);
+                    affichageMap(images,etats,fonts,xMouse,yMouse);
                 }
                 al_flip_display();
                 break;
+            }
+        }
         }
 
-    }
     al_destroy_display(display);
     al_destroy_event_queue(queue);
     al_destroy_timer(timer);
