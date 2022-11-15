@@ -11,10 +11,10 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 764
-#define LARGEUR_FE 1024
-#define NBLARGEURCASE 35
-#define NBLONGUEURCASE 45
+#define HAUTEUR_FE 864
+#define LARGEUR_FE 1464
+#define NBHAUTEURCASE 35
+#define NBLARGEURCASE 45
 #define XDepart 50
 #define YDepart 50
 #define LARGEURCASE 20
@@ -36,9 +36,11 @@ typedef struct {
 
 typedef struct {
     bool routePresente;
+    bool habitationPresente;
     bool batimentPresent;
     bool construisibilite;
     int niveauBatiment;
+    int numeroMaison;
 }Case;
 
 

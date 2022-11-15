@@ -1,14 +1,81 @@
 #include "jeu.h"
 
-void initialisationCase(Case tabCase[NBLARGEURCASE][NBLONGUEURCASE]){
-    for (int i = 0; i < NBLARGEURCASE; i++) {
-        for (int j = 0; j < NBLONGUEURCASE; j++) {
+void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+    for (int i = 0; i < NBHAUTEURCASE; i++) {
+        for (int j = 0; j < NBLARGEURCASE; j++) {
             tabCase[i][j].routePresente = 0;
+            tabCase[i][j].habitationPresente = 0;
             tabCase[i][j].batimentPresent = 0;
             tabCase[i][j].construisibilite = 0;
+            tabCase[i][j].niveauBatiment = 0;
+            tabCase[i][j].numeroMaison = 0;
         }
     }
 }
+
+void calculCaseTabPixel(int* i,int* j,int x1,int y1){
+    *i = (y1-YDepart)/LARGEURCASE;
+    *j = (x1-XDepart)/LARGEURCASE;
+}
+
+void choixBoiteAoutil(ALLEGRO_EVENT event, int* curseur,int* route ,int* habitation ,int* batiment){
+    if (event.mouse.x >= 1150 && event.mouse.x <= 1200
+        && event.mouse.y >= 50 && event.mouse.y <= 100){
+        *route = 1;
+        *habitation = 0;
+        *batiment = 0;
+        *curseur = 0;
+
+    }
+    if (event.mouse.x >= 1150 && event.mouse.x <= 1200
+        && event.mouse.y >= 250 && event.mouse.y <= 300){
+        *habitation = 1;
+        *route = 0;
+        *batiment = 0;
+        *curseur = 0;
+
+    }
+    if (event.mouse.x >= 1150 && event.mouse.x <= 1200
+        && event.mouse.y >= 350 && event.mouse.y <= 400){
+        *habitation = 0;
+        *route = 0;
+        *batiment = 1;
+        *curseur = 0;
+
+    }
+    if (event.mouse.x >= 1150 && event.mouse.x <= 1200
+        && event.mouse.y >= 150 && event.mouse.y <= 200){
+        *route = 0;
+        *habitation = 0;
+        *batiment = 0;
+        *curseur = 1;
+
+    }
+}
+
+
+
+void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+    if (compteur%50 == 0){
+        for (int i = 0; i < NBHAUTEURCASE; i++) {
+            for (int j = 0; j < NBLARGEURCASE; j++){
+                if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].construisibilite == 1){
+                    if (tabCase[i][j-1].routePresente == 1 || tabCase[i+1][j-1].routePresente == 1 || tabCase[i+2][j-1].routePresente == 1 || tabCase[i+3][j].routePresente == 1 || tabCase[i+3][j+1].routePresente == 1 || tabCase[i+3][j+2].routePresente == 1 || tabCase[i][j+3].routePresente == 1 || tabCase[i+1][j+3].routePresente == 1 || tabCase[i+2][j+3].routePresente == 1 || tabCase[i-1][j].routePresente == 1 || tabCase[i-1][j+1].routePresente == 1 || tabCase[i-1][j+2].routePresente == 1 ){
+                        for (int k =i; k < i+3; k++){
+                            for (int l=j ; l < j+3; l++){
+                                if (tabCase[k][l].niveauBatiment < 4){
+                                    tabCase[k][l].niveauBatiment++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
 void jeu(){
     ALLEGRO_DISPLAY *display = NULL;
@@ -32,7 +99,12 @@ void jeu(){
     int x2 = 0;
     int y1 = 0;
     int y2=0;
-    Case tabCase[NBLARGEURCASE][NBLONGUEURCASE];
+    int curseur = 1;
+    int habitation = 0;
+    long long compteur = 0;
+    int chrono = 0;
+    int nbMaison = 1;
+    Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
 
     initialisationCase(tabCase);
 
@@ -97,10 +169,10 @@ void jeu(){
             case ALLEGRO_EVENT_KEY_DOWN:
                 switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_ESCAPE: {
-                        if (!etats.etatMode) {
-                            if (etats.etatEchap) {
-                                etats.etatEchap = 0;
-                            } else {
+                        if(!etats.etatMode){
+                            if(etats.etatEchap){
+                                etats.etatEchap=0;
+                            }else {
                                 etats.etatEchap = 1;
                             }
                         }
@@ -109,6 +181,11 @@ void jeu(){
                 }
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+                if ((event.mouse.button & 1) == 1){
+                    choixBoiteAoutil(event,&curseur,&route,&habitation,&batiment);
+                    definirCaseHabitation(event, habitation, tabCase,&nbMaison);
+                    definirCaseRoute(event, route, tabCase);
+                    definirCaseBatiment(event,batiment,tabCase);
                 if (etats.etatMenuPrincipal) {
                     choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y);
                 } else if (etats.etatMode) {
@@ -125,12 +202,10 @@ void jeu(){
                     }
                 }
                 break;
-            case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-                break;
             case ALLEGRO_EVENT_MOUSE_AXES:
-                caseSouris(event, &x1, &x2, &y1, &y2);
-                int xMouse = event.mouse.x;
-                int yMouse = event.mouse.y;
+                caseSouris(event,&x1,&x2,&y1,&y2);
+                int xMouse=event.mouse.x;
+                int yMouse=event.mouse.y;
                 break;
             case ALLEGRO_EVENT_TIMER: {
                 if (etats.etatMenuPrincipal) {
@@ -168,8 +243,12 @@ void jeu(){
                         if(!etats.etatNoClick) {
                             definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons);
                         }
+                        afficherCompteur(fonts,&compteur,&chrono);
+                        ameliorerHabitation(compteur,tabCase);
+                        afficherHabitation(tabCase);
                         afficherRoute(tabCase, images);
                         afficherBatiment(tabCase);
+                        afficherCaseCurseur(x1,x2,y1,y2,curseur,route,habitation,batiment,tabCase);
                     } else if (etats.couche2) {
                         afficherDeuxiemeCouche(images,fonts);
                     } else if (etats.couche3) {
@@ -179,10 +258,9 @@ void jeu(){
                 }
                 al_flip_display();
                 break;
-            }
-        }
         }
 
+    }
     al_destroy_display(display);
     al_destroy_event_queue(queue);
     al_destroy_timer(timer);
