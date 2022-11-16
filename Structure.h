@@ -32,12 +32,13 @@ typedef struct {
     int habitant;
     int capaciteEau;
     int capaciteElectricite;
-}informationJeu;
+}InformationJeu;
 
 typedef struct {
     bool routePresente;
     bool habitationPresente;
-    bool batimentPresent;
+    bool chateauDeauPresent;
+    bool centraleElectriquePresente;
     bool construisibilite;
     int niveauBatiment;
     int numeroMaison;
@@ -51,6 +52,7 @@ typedef struct {
 typedef struct{
     bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap;
 }Etats;
+
 
 typedef struct{
     ALLEGRO_FONT *font1,*font2;
