@@ -1,6 +1,15 @@
 #include "affichage.h"
 
-void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu){
+void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu,long long *compteur,int *chrono){
+    al_clear_to_color(al_map_rgb(255,255,255));
+    if(etats.couche1){
+        afficherPremiereCouche(images,fonts);
+    }else if(etats.couche2){
+        afficherDeuxiemeCouche(images,fonts);
+    }else if(etats.couche3){
+        afficherTroisiemeCouche(images,fonts);
+    }
+    afficherCompteur(fonts, compteur, chrono);
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++){
             al_draw_rectangle(XDepart + (j*LARGEURCASE), YDepart + (i*LARGEURCASE), XDepart+ LARGEURCASE + (j*LARGEURCASE), YDepart + LARGEURCASE + (i*LARGEURCASE),
