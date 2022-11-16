@@ -228,18 +228,18 @@ void afficherBatiment(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
     }
 }
 
-void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Etats etats){
+void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Etats etats,Images images){
     if  (etats.curseur==1){
         al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(0, 0, 255));
     }
     if(etats.route==1 ){
-        al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(0,0,0));
+        al_draw_bitmap(images.route1,x1,y1,0);
     }
 
     for (int k =(y1-YDepart)/LARGEURCASE; k < (y1-YDepart)/LARGEURCASE +1; k++){
         for (int l=(x1-XDepart)/LARGEURCASE ; l < (x1-XDepart)/LARGEURCASE +1; l++){
             if (etats.route==1 && (tabCase[k][l].habitationPresente == 1 || tabCase[k][l].routePresente==1 || tabCase[k][l].batimentPresent == 1)){
-                al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgb(255,0,0));
+                al_draw_filled_rectangle(x1,y1,x2,y2, al_map_rgba(255,0,0,1));
             }
         }
     }
@@ -363,17 +363,32 @@ void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y)
             al_draw_filled_rectangle(LARGEUR_FE - 145, HAUTEUR_FE - 105, LARGEUR_FE - 275, HAUTEUR_FE - 45,
                                      al_map_rgb(169, 169, 169));
             al_draw_bitmap(images.route2, LARGEUR_FE - 195, HAUTEUR_FE - 100, 0);
+            if(etats->route){
+                al_draw_filled_rectangle(LARGEUR_FE-195,HAUTEUR_FE-100,LARGEUR_FE-145,HAUTEUR_FE-50, al_map_rgba(169,169,169,200));
+            }
             al_draw_bitmap(images.maison, LARGEUR_FE - 260, HAUTEUR_FE - 100, 0);
+            if(etats->habitation){
+                al_draw_filled_rectangle(LARGEUR_FE-260,HAUTEUR_FE-100,LARGEUR_FE-210,HAUTEUR_FE-50, al_map_rgba(169,169,169,200));
+            }
             al_draw_bitmap(images.chateau, LARGEUR_FE - 130, HAUTEUR_FE - 160, 0);
+            if(etats->batiment){
+                al_draw_filled_rectangle(LARGEUR_FE-130,HAUTEUR_FE-160,LARGEUR_FE-80,HAUTEUR_FE-110, al_map_rgba(169,169,169,200));
+            }
             al_draw_bitmap(images.usine, LARGEUR_FE - 195, HAUTEUR_FE - 160, 0);
+            if(etats->batiment){
+                al_draw_filled_rectangle(LARGEUR_FE-195,HAUTEUR_FE-160,LARGEUR_FE-145,HAUTEUR_FE-110, al_map_rgba(169,169,169,200));
+            }
             al_draw_bitmap(images.bulldozer, LARGEUR_FE - 260, HAUTEUR_FE - 160, 0);
+            if(etats->demolir){
+                al_draw_filled_rectangle(LARGEUR_FE-260,HAUTEUR_FE-160,LARGEUR_FE-210,HAUTEUR_FE-110, al_map_rgba(169,169,169,200));
+            }
             if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
                 al_draw_filled_rectangle(x-30,y-20,x+30,y, al_map_rgb(169,169,169));
                 al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-25,y-20,0,"Route");
             }
             if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-100 && y<HAUTEUR_FE-50)){
                 al_draw_filled_rectangle(x-40,y-20,x+40,y, al_map_rgb(169,169,169));
-                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-35,y-20,0,"Batiment");
+                al_draw_textf(fonts.font2, al_map_rgb(0,0,0),x-35,y-20,0,"Habitation");
             }
             if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
                 al_draw_filled_rectangle(x-60,y-20,x+60,y, al_map_rgb(169,169,169));
@@ -457,19 +472,31 @@ void choixBoutonOutil(Etats *etats,int x,int y){
             } else {
                 etats->route = 1;
             }
+            etats->habitation=0;
             etats->batiment=0;
+            etats->demolir=0;
         }//route
         if ((x > LARGEUR_FE - 260 && x < LARGEUR_FE - 210) && (y > HAUTEUR_FE - 100 && y < HAUTEUR_FE - 50)) {
-            if (etats->batiment) {
-                etats->batiment = 0;
+            if (etats->habitation) {
+                etats->habitation = 0;
             } else {
-                etats->batiment = 1;
+                etats->habitation = 1;
             }
             etats->route=0;
-        }//Batiment
+            etats->batiment=0;
+            etats->demolir=0;
+        }//Habitation
         if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+            etats->habitation=0;
+            etats->batiment=0;
+            etats->demolir=0;
+            etats->route=0;
         }//Chateau d'eau
         if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+            etats->habitation=0;
+            etats->batiment=0;
+            etats->demolir=0;
+            etats->route=0;
         }//Usine
         if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
             if(etats->demolir){
@@ -477,6 +504,9 @@ void choixBoutonOutil(Etats *etats,int x,int y){
             } else{
                 etats->demolir=1;
             }
+            etats->habitation=0;
+            etats->batiment=0;
+            etats->route=0;
         }//Demolir
     }else{
         choixMenuBoutonCouches(etats,x,y);

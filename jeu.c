@@ -255,7 +255,7 @@ void jeu() {
                                 afficherHabitation(tabCase);
                                 afficherRoute(tabCase, images);
                                 afficherBatiment(tabCase);
-                                afficherCaseCurseur(x1, x2, y1, y2,tabCase, etats);
+                                afficherCaseCurseur(x1, x2, y1, y2,tabCase, etats,images);
                             } else if (etats.couche2) {
                                 afficherDeuxiemeCouche(images, fonts);
                             } else if (etats.couche3) {
