@@ -5,12 +5,20 @@ void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
         for (int j = 0; j < NBLARGEURCASE; j++) {
             tabCase[i][j].routePresente = 0;
             tabCase[i][j].habitationPresente = 0;
-            tabCase[i][j].batimentPresent = 0;
+            tabCase[i][j].chateauDeauPresent = 0;
+            tabCase[i][j].centraleElectriquePresente = 0;
             tabCase[i][j].construisibilite = 0;
             tabCase[i][j].niveauBatiment = 0;
             tabCase[i][j].numeroMaison = 0;
         }
     }
+}
+
+void initialiserInfoJeu(InformationJeu* informationJeu){
+    informationJeu->argent = 500000;
+    informationJeu->capaciteEau = 0;
+    informationJeu->capaciteElectricite = 0;
+    informationJeu->habitant = 0;
 }
 
 void calculCaseTabPixel(int* i,int* j,int x1,int y1){
@@ -23,40 +31,52 @@ void choixBoiteAoutil(ALLEGRO_EVENT event, Etats *etats){
         && event.mouse.y >= 50 && event.mouse.y <= 100){
         etats->route = 1;
         etats->habitation = 0;
-        etats->batiment = 0;
         etats->curseur = 0;
+        etats->eau=0;
+        etats->electricite=0;
 
     }
     if (event.mouse.x >= 1150 && event.mouse.x <= 1200
         && event.mouse.y >= 250 && event.mouse.y <= 300){
         etats->habitation = 1;
         etats->route = 0;
-        etats->batiment = 0;
         etats->curseur = 0;
+        etats->eau=0;
+        etats->electricite=0;
 
     }
     if (event.mouse.x >= 1150 && event.mouse.x <= 1200
         && event.mouse.y >= 350 && event.mouse.y <= 400){
         etats->habitation = 0;
         etats->route = 0;
-        etats->batiment = 1;
         etats->curseur = 0;
+        etats->eau=1;
+        etats->electricite=0;
 
     }
     if (event.mouse.x >= 1150 && event.mouse.x <= 1200
         && event.mouse.y >= 150 && event.mouse.y <= 200){
-        etats->route = 0;
         etats->habitation = 0;
-        etats->batiment = 0;
+        etats->route = 0;
         etats->curseur = 1;
+        etats->eau=0;
+        etats->electricite=0;
 
+    }
+    if (event.mouse.x >= 1250 && event.mouse.x <= 1300
+        && event.mouse.y >= 350 && event.mouse.y <= 400){
+        etats->habitation = 0;
+        etats->route = 0;
+        etats->curseur = 0;
+        etats->eau=0;
+        etats->electricite=1;
     }
 }
 
 
 
-void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
-    if (compteur%50 == 0){
+void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], long long compteurMaison){
+    if ((compteur%50 == 0)){
         for (int i = 0; i < NBHAUTEURCASE; i++) {
             for (int j = 0; j < NBLARGEURCASE; j++){
                 if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].construisibilite == 1){
@@ -75,9 +95,12 @@ void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEU
     }
 }
 
+void impotTaxe(InformationJeu informationJeu, int compteur){
+
+}
 
 
-void jeu() {
+void jeu(){
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_EVENT event = {0};
@@ -87,6 +110,7 @@ void jeu() {
     Etats etats;
     Fonts fonts;
     ALLEGRO_MOUSE_STATE mouse;
+    InformationJeu informationJeu;
 
     al_init();
     al_init_font_addon();
@@ -102,9 +126,11 @@ void jeu() {
     long long compteur = 0;
     int chrono=0;
     int nbMaison = 1;
+    long long compteurMaison= 0;
     Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
 
     initialisationCase(tabCase);
+    initialiserInfoJeu(&informationJeu);
 
     display = al_create_display(LARGEUR_FE, HAUTEUR_FE);
 
@@ -183,8 +209,8 @@ void jeu() {
                         break;
                 }
                 break;
-            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:{
-                choixBoiteAoutil(event,&etats);
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
+                choixBoiteAoutil(event, &etats);
                 if (etats.etatMenuPrincipal) {
                     choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y);
                 } else if (etats.etatMode) {
@@ -197,13 +223,14 @@ void jeu() {
                         choixBoutonOutil(&etats, event.mouse.x, event.mouse.y);
                     }
                     if (etats.couche1 && !etats.etatNoClick) {
-                        definirCaseBatiment(event, etats.batiment, tabCase);
+                        definirCaseChateauDeau(event, etats.eau, tabCase, &informationJeu);
+                        definirCaseCentraleElectrique(event, etats.electricite, tabCase, &informationJeu);
                         definirCaseHabitation(event, etats.habitation, tabCase, &nbMaison);
                     }
                 }
                 break;
-        }
-                    case ALLEGRO_EVENT_MOUSE_AXES:
+            }
+            case ALLEGRO_EVENT_MOUSE_AXES:
                         caseSouris(event, &x1, &x2, &y1, &y2);
                         int xMouse = event.mouse.x;
                         int yMouse = event.mouse.y;
@@ -254,7 +281,8 @@ void jeu() {
                                 ameliorerHabitation(compteur, tabCase);
                                 afficherHabitation(tabCase);
                                 afficherRoute(tabCase, images);
-                                afficherBatiment(tabCase);
+                                afficherChateauDeau(tabCase);
+                                afficherCentraleElectrique(tabCase);
                                 afficherCaseCurseur(x1, x2, y1, y2,tabCase, etats,images);
                             } else if (etats.couche2) {
                                 afficherDeuxiemeCouche(images, fonts);

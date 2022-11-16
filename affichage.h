@@ -2,16 +2,18 @@
 #define ECE_CITY_1_I_AFFICHAGE_H
 #include "Structure.h"
 
-void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y);
+void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu);
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
-void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton);
+void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton,InformationJeu* informationJeu);
 void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
-void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison);
+void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison,InformationJeu* informationJeu);
 void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void definirCaseBatiment(ALLEGRO_EVENT event, int batiment, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void afficherBatiment(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Etats etats,Images images);
-void afficherCompteur(Fonts fonts, long long *compteur, int* chrono);
+void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu);
+void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherCaseCurseur(int x1, int x2, int y1, int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], Images images, Etats etats);
+void afficherCompteur(Fonts fonts, long long * compteur, int* chrono);
+void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu);
+void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
 
 void affichageMenuPrincipal(Images images,Fonts fonts);
 
