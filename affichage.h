@@ -2,16 +2,18 @@
 #define ECE_CITY_1_I_AFFICHAGE_H
 #include "Structure.h"
 
-void affichageMap(Fonts fonts);
+void affichageMap(Fonts fonts,InformationJeu informationJeu,Images images);
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
-void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison);
+void definirCaseRoute(ALLEGRO_EVENT event, int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu* informationJeu);
+void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
+void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison,InformationJeu* informationJeu,long long compteur, long long* compteurMaison);
 void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void definirCaseBatiment(ALLEGRO_EVENT event, int batiment, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void afficherBatiment(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void afficherCaseCurseur(int x1,int x2,int y1,int y2, int curseur, int route, int habitation, int batiment,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
-void afficherCompteur(Fonts fonts, int* compteur, int* chrono);
+void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu);
+void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherCaseCurseur(int x1, int x2, int y1, int y2, int curseur, int route, int habitation, int eau, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], Images images,int electricite);
+void afficherCompteur(Fonts fonts, long long * compteur, int* chrono);
+void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu);
+void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
 
 void affichageMenuPrincipal(Images images,Fonts fonts);
 
