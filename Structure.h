@@ -11,8 +11,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 864
-#define LARGEUR_FE 1464
+#define HAUTEUR_FE 764
+#define LARGEUR_FE 1024
 #define NBHAUTEURCASE 35
 #define NBLARGEURCASE 45
 #define XDepart 50
@@ -45,11 +45,13 @@ typedef struct {
 
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,*chateau,*usine,*bulldozer;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,
+    *chateau,*usine,*bulldozer;
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,etatCouche,route,batiment,etatNoClick,habitation,electricite,curseur,eau;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,
+    etatCouche,route,batiment,etatNoClick,habitation,electricite,curseur,eau,demolir;
 }Etats;
 
 typedef struct{

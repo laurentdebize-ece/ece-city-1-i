@@ -148,6 +148,7 @@ void jeu() {
     etats.habitation=0;
     etats.eau=0;
     etats.electricite=0;
+    etats.demolir=0;
 
     //Fonts
     fonts.font1 = al_load_ttf_font("../Fonts/font1.ttf", 40, 0);

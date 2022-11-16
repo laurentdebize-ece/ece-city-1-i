@@ -417,6 +417,7 @@ void choixJeu(Etats *etats,int x,int y){
     if((x>LARGEUR_FE-65 && x<LARGEUR_FE-15)&&(y>HAUTEUR_FE-100 && y<HAUTEUR_FE-40)){
         if(etats->etatBoutonReglage){
             etats->etatBoutonReglage=0;
+            etats->etatCouche=0;
         }else {
             etats->etatBoutonReglage=1;
         }
@@ -447,7 +448,7 @@ void choixBoutonOutil(Etats *etats,int x,int y){
             etats->etatCouche = 0;
         }else{
             etats->etatCouche=1;
-        }
+        }//Bouton couche
     }
     if(!etats->etatCouche) {
         if ((x > LARGEUR_FE - 195 && x < LARGEUR_FE - 145) && (y > HAUTEUR_FE - 100 && y < HAUTEUR_FE - 50)) {
@@ -466,6 +467,17 @@ void choixBoutonOutil(Etats *etats,int x,int y){
             }
             etats->route=0;
         }//Batiment
+        if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+        }//Chateau d'eau
+        if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+        }//Usine
+        if((x>LARGEUR_FE-260 && x<LARGEUR_FE-210) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+            if(etats->demolir){
+                etats->demolir=0;
+            } else{
+                etats->demolir=1;
+            }
+        }//Demolir
     }else{
         choixMenuBoutonCouches(etats,x,y);
     }
