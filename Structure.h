@@ -49,7 +49,7 @@ typedef struct {
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,etatCouche,route,batiment,etatNoClick;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,etatCouche,route,batiment,etatNoClick,habitation,electricite,curseur,eau;
 }Etats;
 
 typedef struct{
