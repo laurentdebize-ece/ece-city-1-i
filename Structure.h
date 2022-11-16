@@ -32,12 +32,13 @@ typedef struct {
     int habitant;
     int capaciteEau;
     int capaciteElectricite;
-}informationJeu;
+}InformationJeu;
 
 typedef struct {
     bool routePresente;
     bool habitationPresente;
-    bool batimentPresent;
+    bool chateauDeauPresent;
+    bool centraleElectriquePresente;
     bool construisibilite;
     int niveauBatiment;
     int numeroMaison;
@@ -45,12 +46,15 @@ typedef struct {
 
 
 typedef struct {
-    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,*chateau,*usine,*bulldozer;
+    ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,
+    *chateau,*usine,*bulldozer;
 }Images;
 
 typedef struct{
-    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,etatCouche,route,batiment,etatNoClick,habitation,electricite,curseur,eau;
+    bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,
+    etatCouche,route,etatNoClick,habitation,electricite,curseur,eau,demolir;
 }Etats;
+
 
 typedef struct{
     ALLEGRO_FONT *font1,*font2;
