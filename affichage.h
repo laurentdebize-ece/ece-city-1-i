@@ -2,7 +2,7 @@
 #define ECE_CITY_1_I_AFFICHAGE_H
 #include "Structure.h"
 
-void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu);
+void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu,long long *compteur,int *chrono);
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
 void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton,InformationJeu* informationJeu);
 void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);

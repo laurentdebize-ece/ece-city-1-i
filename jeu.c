@@ -244,7 +244,7 @@ void jeu(){
                         } else if (etats.etatEchap) {
                             afficherMenuEchap(fonts);
                         } else {
-                            al_clear_to_color(al_map_rgb(255,255,255));
+                            affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono);
                             if (etats.couche1) {
                                 if (etats.etatBoutonReglage) {
                                     if ((etats.etatCouche && (xMouse < LARGEUR_FE - 145 && yMouse > HAUTEUR_FE - 105
@@ -263,11 +263,9 @@ void jeu(){
                                 } else {
                                     etats.etatNoClick = 0;
                                 }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
-                                afficherPremiereCouche(images, fonts);
                                 if (!etats.etatNoClick) {
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu);
                                 }
-                                afficherCompteur(fonts, &compteur, &chrono);
                                 ameliorerHabitation(compteur, tabCase,compteurMaison);
                                 afficherHabitation(tabCase);
                                 afficherRoute(tabCase, images);
@@ -275,11 +273,8 @@ void jeu(){
                                 afficherCentraleElectrique(tabCase);
                                 afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                             } else if (etats.couche2) {
-                                afficherDeuxiemeCouche(images, fonts);
                             } else if (etats.couche3) {
-                                afficherTroisiemeCouche(images, fonts);
                             }
-                            affichageMap(images,etats,fonts,xMouse,yMouse,informationJeu);
                         }
                         al_flip_display();
                         break;
