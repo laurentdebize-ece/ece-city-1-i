@@ -1,4 +1,5 @@
 #include "Structure.h"
+#include "jeu.h"
 
 
 int main() {
