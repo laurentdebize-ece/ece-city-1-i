@@ -58,35 +58,37 @@ void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2){
     }
 }
 
-void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton,InformationJeu* informationJeu){
+void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton,InformationJeu* informationJeu) {
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
             if (xMouse >= XDepart + (j * LARGEURCASE) &&
                 xMouse <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
                 yMouse >= YDepart + (i * LARGEURCASE) &&
                 yMouse <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
-                if(bouton ==1) {
-                    if ((route==1 && tabCase[i][j].routePresente == 0 && tabCase[i][j].habitationPresente == 0 && tabCase[i][j].chateauDeauPresent == 0) && informationJeu->argent >= 10){
+                if (bouton == 1) {
+                    if ((route == 1 && tabCase[i][j].routePresente == 0 && tabCase[i][j].habitationPresente == 0 &&
+                         tabCase[i][j].chateauDeauPresent == 0) && informationJeu->argent >= 10) {
                         tabCase[i][j].routePresente = 1;
                         tabCase[i][j].construisibilite = 0;
                         informationJeu->argent -= 10;
                     }
-                }else if(bouton==2){
+                } else if (bouton == 2) {
                     if (route == 1) {
                         tabCase[i][j].routePresente = 0;
                     }
 
+                }
+
             }
 
         }
-
     }
 }
 
 void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].routePresente == 1 && tabCase[i][j].batimentPresent==0){
+            if (tabCase[i][j].routePresente == 1){
                 al_draw_bitmap(images.route1,XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),0);
             }
 
@@ -247,7 +249,7 @@ void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
         }
     }
 }
-void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu){
+void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu) {
     int implementation = 0;
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
@@ -255,49 +257,53 @@ void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case ta
                 event.mouse.x <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
                 event.mouse.y >= YDepart + (i * LARGEURCASE) &&
                 event.mouse.y <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
-                if ((electricite == 1 && (event.mouse.x + LARGEURCASE * 3) <= XDepart + LARGEURCASE * NBLARGEURCASE && (event.mouse.y + LARGEURCASE * 5) <= YDepart + LARGEURCASE * NBHAUTEURCASE) && informationJeu->argent >= 100000){
-                    for (int k =i; k < i+6; k++){
-                        for (int l=j ; l < j+4; l++){
-                            if (tabCase[k][l].routePresente == 0){
-                                implementation ++;
+                if ((electricite == 1 && (event.mouse.x + LARGEURCASE * 3) <= XDepart + LARGEURCASE * NBLARGEURCASE &&
+                     (event.mouse.y + LARGEURCASE * 5) <= YDepart + LARGEURCASE * NBHAUTEURCASE) &&
+                    informationJeu->argent >= 100000) {
+                    for (int k = i; k < i + 6; k++) {
+                        for (int l = j; l < j + 4; l++) {
+                            if (tabCase[k][l].routePresente == 0) {
+                                implementation++;
                             }
                         }
                     }
-                    for (int k =i; k < i+6; k++){
-                        for (int l=j ; l < j+4; l++){
-                            if (tabCase[k][l].habitationPresente == 0){
-                                implementation ++;
+                    for (int k = i; k < i + 6; k++) {
+                        for (int l = j; l < j + 4; l++) {
+                            if (tabCase[k][l].habitationPresente == 0) {
+                                implementation++;
                             }
                         }
                     }
-                    for (int k =i; k < i+6; k++){
-                        for (int l=j ; l < j+4; l++){
-                            if (tabCase[k][l].chateauDeauPresent == 0){
-                                implementation ++;
+                    for (int k = i; k < i + 6; k++) {
+                        for (int l = j; l < j + 4; l++) {
+                            if (tabCase[k][l].chateauDeauPresent == 0) {
+                                implementation++;
                             }
                         }
                     }
-                    for (int k =i; k < i+6; k++){
-                        for (int l=j ; l < j+4; l++){
-                            if (tabCase[k][l].centraleElectriquePresente == 0){
-                                implementation ++;
+                    for (int k = i; k < i + 6; k++) {
+                        for (int l = j; l < j + 4; l++) {
+                            if (tabCase[k][l].centraleElectriquePresente == 0) {
+                                implementation++;
                             }
                         }
                     }
-                    for (int k =i; k < i+6; k++){
-                        for (int l=j ; l < j+4; l++){
-                            if(implementation == 24*4){
+                    for (int k = i; k < i + 6; k++) {
+                        for (int l = j; l < j + 4; l++) {
+                            if (implementation == 24 * 4) {
                                 tabCase[k][l].centraleElectriquePresente = 1;
                             }
                         }
                     }
-                    if (implementation == 24*4){
+                    if (implementation == 24 * 4) {
                         informationJeu->argent -= 100000;
                     }
 
 
                 }
 
+            }
+        }
     }
 }
 
@@ -312,7 +318,7 @@ void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
     }
 }
 
-void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Etats etats,Images images){
+void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images,Etats etats){
     if  (etats.curseur==1){
         al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(0, 0, 255));
     }
@@ -469,11 +475,11 @@ void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y)
                 al_draw_filled_rectangle(LARGEUR_FE-260,HAUTEUR_FE-100,LARGEUR_FE-210,HAUTEUR_FE-50, al_map_rgba(169,169,169,200));
             }
             al_draw_bitmap(images.chateau, LARGEUR_FE - 130, HAUTEUR_FE - 160, 0);
-            if(etats->batiment){
+            if(etats->eau){
                 al_draw_filled_rectangle(LARGEUR_FE-130,HAUTEUR_FE-160,LARGEUR_FE-80,HAUTEUR_FE-110, al_map_rgba(169,169,169,200));
             }
             al_draw_bitmap(images.usine, LARGEUR_FE - 195, HAUTEUR_FE - 160, 0);
-            if(etats->batiment){
+            if(etats->electricite){
                 al_draw_filled_rectangle(LARGEUR_FE-195,HAUTEUR_FE-160,LARGEUR_FE-145,HAUTEUR_FE-110, al_map_rgba(169,169,169,200));
             }
             al_draw_bitmap(images.bulldozer, LARGEUR_FE - 260, HAUTEUR_FE - 160, 0);
@@ -571,7 +577,8 @@ void choixBoutonOutil(Etats *etats,int x,int y){
                 etats->route = 1;
             }
             etats->habitation=0;
-            etats->batiment=0;
+            etats->eau=0;
+            etats->electricite=0;
             etats->demolir=0;
         }//route
         if ((x > LARGEUR_FE - 260 && x < LARGEUR_FE - 210) && (y > HAUTEUR_FE - 100 && y < HAUTEUR_FE - 50)) {
@@ -581,18 +588,21 @@ void choixBoutonOutil(Etats *etats,int x,int y){
                 etats->habitation = 1;
             }
             etats->route=0;
-            etats->batiment=0;
+            etats->eau=0;
+            etats->electricite=0;
             etats->demolir=0;
         }//Habitation
         if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
             etats->habitation=0;
-            etats->batiment=0;
+            etats->eau=0;
+            etats->electricite=0;
             etats->demolir=0;
             etats->route=0;
         }//Chateau d'eau
         if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
             etats->habitation=0;
-            etats->batiment=0;
+            etats->eau=0;
+            etats->electricite=0;
             etats->demolir=0;
             etats->route=0;
         }//Usine
@@ -603,7 +613,8 @@ void choixBoutonOutil(Etats *etats,int x,int y){
                 etats->demolir=1;
             }
             etats->habitation=0;
-            etats->batiment=0;
+            etats->eau=0;
+            etats->electricite=0;
             etats->route=0;
         }//Demolir
     }else{

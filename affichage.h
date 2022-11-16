@@ -6,7 +6,7 @@ void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJ
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
 void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton,InformationJeu* informationJeu);
 void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
-void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison,InformationJeu* informationJeu);
+void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison,InformationJeu* informationJeu,long long compteur, long long* compteurMaison);
 void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
 void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu);
 void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);

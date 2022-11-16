@@ -168,7 +168,6 @@ void jeu(){
     etats.etatBoutonReglage = 0;
     etats.etatCouche = 0;
     etats.route = 0;
-    etats.batiment = 0;
     etats.etatNoClick = 0;
     etats.curseur=1;
     etats.habitation=0;
@@ -210,7 +209,9 @@ void jeu(){
                 }
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
-                choixBoiteAoutil(event, &etats);
+                if ((event.mouse.button & 1) == 1) {
+                    choixBoiteAoutil(event, &etats);
+                }
                 if (etats.etatMenuPrincipal) {
                     choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y);
                 } else if (etats.etatMode) {
@@ -225,7 +226,7 @@ void jeu(){
                     if (etats.couche1 && !etats.etatNoClick) {
                         definirCaseChateauDeau(event, etats.eau, tabCase, &informationJeu);
                         definirCaseCentraleElectrique(event, etats.electricite, tabCase, &informationJeu);
-                        definirCaseHabitation(event, etats.habitation, tabCase, &nbMaison);
+                        definirCaseHabitation(event, etats.habitation, tabCase, &nbMaison,&informationJeu,compteur,&compteurMaison);
                     }
                 }
                 break;
@@ -243,7 +244,7 @@ void jeu(){
                         } else if (etats.etatEchap) {
                             afficherMenuEchap(fonts);
                         } else {
-                            al_clear_to_color(al_map_rgb(255, 255, 255));
+                            al_clear_to_color(al_map_rgb(255,255,255));
                             if (etats.couche1) {
                                 if (etats.etatBoutonReglage) {
                                     if ((etats.etatCouche && (xMouse < LARGEUR_FE - 145 && yMouse > HAUTEUR_FE - 105
@@ -263,33 +264,22 @@ void jeu(){
                                     etats.etatNoClick = 0;
                                 }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
                                 afficherPremiereCouche(images, fonts);
-                                if (etats.route) {
-                                    al_draw_bitmap(images.route1, x1, y1, 0);
-                                }
-                                if (etats.batiment) {
-                                    al_draw_filled_rectangle(x1, y1, x2 + LARGEURCASE * 2, y2 + LARGEURCASE * 2,
-                                                             al_map_rgb(0, 255, 0));
-
-                                }
-                                if (!etats.route && !etats.batiment) {
-                                    al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255, 0, 0));
-                                }
                                 if (!etats.etatNoClick) {
-                                    definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons);
+                                    definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu);
                                 }
                                 afficherCompteur(fonts, &compteur, &chrono);
-                                ameliorerHabitation(compteur, tabCase);
+                                ameliorerHabitation(compteur, tabCase,compteurMaison);
                                 afficherHabitation(tabCase);
                                 afficherRoute(tabCase, images);
                                 afficherChateauDeau(tabCase);
                                 afficherCentraleElectrique(tabCase);
-                                afficherCaseCurseur(x1, x2, y1, y2,tabCase, etats,images);
+                                afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                             } else if (etats.couche2) {
                                 afficherDeuxiemeCouche(images, fonts);
                             } else if (etats.couche3) {
                                 afficherTroisiemeCouche(images, fonts);
                             }
-                            affichageMap(images, etats, fonts, xMouse, yMouse);
+                            affichageMap(images,etats,fonts,xMouse,yMouse,informationJeu);
                         }
                         al_flip_display();
                         break;

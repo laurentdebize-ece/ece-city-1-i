@@ -52,7 +52,7 @@ typedef struct {
 
 typedef struct{
     bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,
-    etatCouche,route,batiment,etatNoClick,habitation,electricite,curseur,eau,demolir;
+    etatCouche,route,etatNoClick,habitation,electricite,curseur,eau,demolir;
 }Etats;
 
 
