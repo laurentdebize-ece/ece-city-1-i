@@ -602,16 +602,24 @@ void choixBoutonOutil(Etats *etats,int x,int y){
             etats->demolir=0;
         }//Habitation
         if((x>LARGEUR_FE-130 && x<LARGEUR_FE-80) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+            if(etats->eau){
+                etats->eau=0;
+            }else{
+                etats->eau=1;
+            }
             etats->habitation=0;
-            etats->eau=0;
             etats->electricite=0;
             etats->demolir=0;
             etats->route=0;
         }//Chateau d'eau
         if((x>LARGEUR_FE-195 && x<LARGEUR_FE-145) && (y>HAUTEUR_FE-160 && y<HAUTEUR_FE-110)){
+            if(etats->electricite){
+                etats->electricite=0;
+            }else{
+                etats->electricite=1;
+            }
             etats->habitation=0;
             etats->eau=0;
-            etats->electricite=0;
             etats->demolir=0;
             etats->route=0;
         }//Usine
@@ -629,4 +637,37 @@ void choixBoutonOutil(Etats *etats,int x,int y){
     }else{
         choixMenuBoutonCouches(etats,x,y);
     }
+}
+
+void demolir(int bouton,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,InformationJeu* informationJeu,int demolir){
+    for (int i = 0; i < NBHAUTEURCASE; i++) {
+        for (int j = 0; j < NBLARGEURCASE; j++) {
+            if (xMouse >= XDepart + (j * LARGEURCASE) &&
+                xMouse <= XDepart + LARGEURCASE + (j * LARGEURCASE) &&
+                yMouse >= YDepart + (i * LARGEURCASE) &&
+                yMouse <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
+                if (bouton == 1) {
+                    if (demolir == 1){
+                        if(tabCase[i][j].routePresente){
+                            tabCase[i][j].routePresente = 0;
+                            informationJeu->argent += 10;
+                        }
+                        if(tabCase[i][j].habitationPresente){
+                            tabCase[i][j].habitationPresente = 0;
+                            informationJeu->argent += 1000;
+                        }//Il faut faire en sorte que ça supprime toute la maison
+                        if(tabCase[i][j].centraleElectriquePresente){
+                            tabCase[i][j].centraleElectriquePresente = 0;
+                            informationJeu->argent += 100000;
+                        }
+                        if(tabCase[i][j].chateauDeauPresent){
+                            tabCase[i][j].chateauDeauPresent = 0;
+                            informationJeu->argent += 100000;
+                        }
+                        tabCase[i][j].construisibilite = 1;
+                    }
+            }
+        }
+    }
+}
 }

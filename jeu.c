@@ -265,6 +265,7 @@ void jeu(){
                                 }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
                                 if (!etats.etatNoClick) {
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu);
+                                    demolir(mouse.buttons,tabCase,xMouse,yMouse,&informationJeu,etats.demolir);
                                 }
                                 ameliorerHabitation(compteur, tabCase,compteurMaison);
                                 afficherHabitation(tabCase);
