@@ -43,5 +43,7 @@ void choixMenuBoutonCouches(Etats *etats,int x,int y);
 
 void choixBoutonOutil(Etats *etats,int x,int y);
 
+void demolir(int bouton,Case tabCase [NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,InformationJeu* informationJeu,int demolir);
+
 
 #endif //ECE_CITY_1_I_AFFICHAGE_H
