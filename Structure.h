@@ -11,11 +11,11 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 864
-#define LARGEUR_FE 1464
+#define HAUTEUR_FE 764
+#define LARGEUR_FE 1264
 #define NBHAUTEURCASE 35
 #define NBLARGEURCASE 45
-#define XDepart 50
+#define XDepart 25
 #define YDepart 50
 #define LARGEURCASE 20
 
@@ -35,19 +35,22 @@ typedef struct {
 }InformationJeu;
 
 typedef struct {
-    bool routePresente;
-    bool habitationPresente;
-    bool chateauDeauPresent;
-    bool centraleElectriquePresente;
-    bool construisibilite;
+    int routePresente;
+    int habitationPresente;
+    int chateauDeauPresent;
+    int centraleElectriquePresente;
+    int construisibilite;
     int niveauBatiment;
     int numeroMaison;
+    int numeroChateauDeau;
+    int numeroCentrale;
+    int valeurDansLeFichierTexte;
 }Case;
 
 
 typedef struct {
     ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,
-    *chateau,*usine,*bulldozer;
+    *chateau,*usine,*bulldozer,*curseur;
 }Images;
 
 typedef struct{
@@ -57,8 +60,40 @@ typedef struct{
 
 
 typedef struct{
-    ALLEGRO_FONT *font1,*font2;
+    ALLEGRO_FONT *font1,*font2,*font3;
 }Fonts;
+
+
+typedef struct {
+    int argent;
+    int nombrehabitantsdelaville;
+} Joueur;
+
+typedef struct {
+    int type;
+    int ligne, colonne;
+    int habitants;
+    int prix;
+} Batiment;
+
+typedef struct {
+    Batiment route;
+    Case valeurcasefichiertexte;
+    Joueur joueur;
+
+    Batiment canalisation;
+    Batiment ligneelectrique;
+    Batiment cabane;
+    Batiment maison;
+    Batiment immeuble;
+    Batiment gratteciel;
+    Batiment chateaueau;
+    Batiment centraleelectrique;
+    Batiment terrainvague;
+    int matriceDuplateau[35][45];
+} Global;
+
+
 
 #include "affichage.h"
 #include "menu.h"

@@ -1,3 +1,7 @@
+//
+// Created by Kevin Le Heurt on 09/11/2022.
+//
+
 #include "jeu.h"
 
 void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
@@ -19,6 +23,13 @@ void initialiserInfoJeu(InformationJeu* informationJeu){
     informationJeu->capaciteEau = 0;
     informationJeu->capaciteElectricite = 0;
     informationJeu->habitant = 0;
+}
+
+void initialisationCoutBatiment(CoutBatiment* coutBatiment){
+    coutBatiment->route = 10;
+    coutBatiment->terrainVague = 1000;
+    coutBatiment->centraleElectrique = 100000;
+    coutBatiment->chateauDeau = 100000;
 }
 
 void calculCaseTabPixel(int* i,int* j,int x1,int y1){
@@ -95,8 +106,10 @@ void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEU
     }
 }
 
-void impotTaxe(InformationJeu informationJeu, int compteur){
-
+void impotTaxe(InformationJeu* informationJeu, long long compteur){
+    if (compteur%50== 0){
+        informationJeu->argent += informationJeu->habitant*10;
+    }
 }
 
 
@@ -111,6 +124,7 @@ void jeu(){
     Fonts fonts;
     ALLEGRO_MOUSE_STATE mouse;
     InformationJeu informationJeu;
+    CoutBatiment coutBatiment;
 
     al_init();
     al_init_font_addon();
@@ -126,11 +140,16 @@ void jeu(){
     long long compteur = 0;
     int chrono=0;
     int nbMaison = 1;
+    int nbChateauDeau = 1;
+    int nbCentrale = 1;
     long long compteurMaison= 0;
+    int xMouse;
+    int yMouse;
     Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
 
     initialisationCase(tabCase);
     initialiserInfoJeu(&informationJeu);
+    initialisationCoutBatiment(&coutBatiment);
 
     display = al_create_display(LARGEUR_FE, HAUTEUR_FE);
 
@@ -154,6 +173,7 @@ void jeu(){
     images.usine = al_load_bitmap("../Images/usine.png");
     images.chateau = al_load_bitmap("../Images/chateau.png");
     images.bulldozer = al_load_bitmap("../Images/bulldozer.png");
+    images.curseur = al_load_bitmap("../Images/curseur.png");
 
     //Booléens
     etats.fin = 0;
@@ -178,6 +198,7 @@ void jeu(){
     //Fonts
     fonts.font1 = al_load_ttf_font("../Fonts/font1.ttf", 40, 0);
     fonts.font2 = al_load_ttf_font("../Fonts/font1.ttf", 20, 0);
+    fonts.font3 = al_load_ttf_font("../Fonts/font1.ttf", 30, 0);
 
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -210,7 +231,7 @@ void jeu(){
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
                 if ((event.mouse.button & 1) == 1) {
-                    choixBoiteAoutil(event, &etats);
+                    //choixBoiteAoutil(event, &etats);
                 }
                 if (etats.etatMenuPrincipal) {
                     choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y);
@@ -224,17 +245,18 @@ void jeu(){
                         choixBoutonOutil(&etats, event.mouse.x, event.mouse.y);
                     }
                     if (etats.couche1 && !etats.etatNoClick) {
-                        definirCaseChateauDeau(event, etats.eau, tabCase, &informationJeu);
-                        definirCaseCentraleElectrique(event, etats.electricite, tabCase, &informationJeu);
-                        definirCaseHabitation(event, etats.habitation, tabCase, &nbMaison,&informationJeu,compteur,&compteurMaison);
+                        definirCaseChateauDeau(event, etats.eau, tabCase, &informationJeu,coutBatiment,&nbChateauDeau);
+                        definirCaseCentraleElectrique(event, etats.electricite, tabCase, &informationJeu,coutBatiment,&nbCentrale);
+                        definirCaseHabitation(event, etats.habitation, tabCase, &nbMaison,&informationJeu,compteur,&compteurMaison,coutBatiment);
+                        demolir(etats.etatBoutonReglage,tabCase,xMouse,yMouse,&informationJeu,etats.demolir);
                     }
                 }
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES:
                         caseSouris(event, &x1, &x2, &y1, &y2);
-                        int xMouse = event.mouse.x;
-                        int yMouse = event.mouse.y;
+                        xMouse = event.mouse.x;
+                        yMouse = event.mouse.y;
                         break;
                     case ALLEGRO_EVENT_TIMER: {
                         if (etats.etatMenuPrincipal) {
@@ -264,7 +286,7 @@ void jeu(){
                                     etats.etatNoClick = 0;
                                 }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
                                 if (!etats.etatNoClick) {
-                                    definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu);
+                                    definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                                 }
                                 ameliorerHabitation(compteur, tabCase,compteurMaison);
                                 afficherHabitation(tabCase);
@@ -281,8 +303,11 @@ void jeu(){
                     }
 
                 }
+
+
         }
-                al_destroy_display(display);
-                al_destroy_event_queue(queue);
-                al_destroy_timer(timer);
-    }
+
+    al_destroy_display(display);
+    al_destroy_event_queue(queue);
+    al_destroy_timer(timer);
+}
