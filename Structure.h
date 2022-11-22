@@ -47,7 +47,7 @@ typedef struct {
 
 typedef struct {
     ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,
-    *chateau,*usine,*bulldozer;
+    *chateau,*usine,*bulldozer,*terrain0,*terrain1,*terrain2,*terrain3,*terrain4;
 }Images;
 
 typedef struct{

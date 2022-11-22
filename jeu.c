@@ -154,6 +154,7 @@ void jeu(){
     images.usine = al_load_bitmap("../Images/usine.png");
     images.chateau = al_load_bitmap("../Images/chateau.png");
     images.bulldozer = al_load_bitmap("../Images/bulldozer.png");
+    images.terrain0 = al_load_bitmap("../Images/terrain vague.png");
 
     //Booléens
     etats.fin = 0;
@@ -268,7 +269,7 @@ void jeu(){
                                     demolir(mouse.buttons,tabCase,xMouse,yMouse,&informationJeu,etats.demolir);
                                 }
                                 ameliorerHabitation(compteur, tabCase,compteurMaison);
-                                afficherHabitation(tabCase);
+                                afficherHabitation(tabCase,images);
                                 afficherRoute(tabCase, images);
                                 afficherChateauDeau(tabCase);
                                 afficherCentraleElectrique(tabCase);
