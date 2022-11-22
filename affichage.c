@@ -90,9 +90,29 @@ void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int 
                 yMouse <= YDepart + LARGEURCASE + (i * LARGEURCASE)) {
                 if (bouton == 1) {
                     if ((route == 1 && tabCase[i][j].routePresente == 0 && tabCase[i][j].habitationPresente == 0 &&
-                         tabCase[i][j].chateauDeauPresent == 0) && informationJeu->argent >= 10) {
+                         tabCase[i][j].chateauDeauPresent == 0 && tabCase[i][j].centraleElectriquePresente == 0) && informationJeu->argent >= 10) {
+
+                        if (tabCase[i+1][j].routePresente == 0 || tabCase[i+1][j].habitationPresente == 0 || tabCase[i+1][j].chateauDeauPresent == 0 && tabCase[i+1][j].centraleElectriquePresente == 0){
+                            tabCase[i+1][j].caseConnexeRoute = 1;
+
+                        }
+
+                        if (tabCase[i-1][j].routePresente == 0 || tabCase[i-1][j].habitationPresente == 0 || tabCase[i-1][j].chateauDeauPresent == 0 && tabCase[i-1][j].centraleElectriquePresente == 0){
+                            tabCase[i-1][j].caseConnexeRoute = 1;
+
+                        }
+
+                        if (tabCase[i][j+1].routePresente == 0 || tabCase[i][j+1].habitationPresente == 0 || tabCase[i][j+1].chateauDeauPresent == 0 && tabCase[i][j+1].centraleElectriquePresente == 0){
+                            tabCase[i][j+1].caseConnexeRoute = 1;
+
+                        }
+                        if (tabCase[i][j-1].routePresente == 0 || tabCase[i][j-1].habitationPresente == 0 || tabCase[i][j-1].chateauDeauPresent == 0 && tabCase[i][j-1].centraleElectriquePresente == 0){
+                            tabCase[i][j-1].caseConnexeRoute = 1;
+
+                        }
+
                         tabCase[i][j].routePresente = 1;
-                        tabCase[i][j].construisibilite = 0;
+                        tabCase[i][j].caseConnexeRoute = 0;
                         informationJeu->argent -= coutBatiment.route;
                     }
                 } else if (bouton == 2) {
@@ -245,6 +265,7 @@ void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEUR
                     for (int k =i; k < i+6; k++){
                         for (int l=j ; l < j+4; l++){
                             if(implementation == 24*4){
+                                tabCase[i][j].construisibilite = 1;
                                 tabCase[k][l].chateauDeauPresent = 1;
                                 tabCase[k][l].numeroChateauDeau = *nbChateauDeau;
 
@@ -318,6 +339,7 @@ void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case ta
                     for (int k = i; k < i + 6; k++) {
                         for (int l = j; l < j + 4; l++) {
                             if (implementation == 24 * 4) {
+                                tabCase[i][j].construisibilite = 1;
                                 tabCase[k][l].centraleElectriquePresente = 1;
                                 tabCase[k][l].numeroCentrale = *nbCentrale;
 
@@ -413,7 +435,6 @@ void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE]
             }
         }
     }
-
 
 }
 
@@ -725,7 +746,7 @@ void demolir(int bouton,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,in
                             }
                             informationJeu->argent += 1000;
 
-                        }//Il faut faire en sorte que ça supprime toute la maison
+                        }
                         if(tabCase[i][j].centraleElectriquePresente){
 
                             for (int k = 0; k < NBHAUTEURCASE; k++) {

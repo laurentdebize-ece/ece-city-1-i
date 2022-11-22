@@ -45,6 +45,7 @@ typedef struct {
     int numeroChateauDeau;
     int numeroCentrale;
     int valeurDansLeFichierTexte;
+    int caseConnexeRoute;
 }Case;
 
 

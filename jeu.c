@@ -86,7 +86,7 @@ void choixBoiteAoutil(ALLEGRO_EVENT event, Etats *etats){
 
 
 
-void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], long long compteurMaison){
+void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
     if ((compteur%50 == 0)){
         for (int i = 0; i < NBHAUTEURCASE; i++) {
             for (int j = 0; j < NBLARGEURCASE; j++){
@@ -110,6 +110,37 @@ void impotTaxe(InformationJeu* informationJeu, long long compteur){
     if (compteur%50== 0){
         informationJeu->argent += informationJeu->habitant*10;
     }
+}
+
+void chateauDeauConnexe(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], long long compteur){
+
+    for (int i = 0; i < NBHAUTEURCASE; i++) {
+        for (int j = 0; j < NBLARGEURCASE; j++) {
+            if (tabCase[i][j].chateauDeauPresent && tabCase[i][j].construisibilite){
+
+                if (tabCase[i][j - 1].routePresente == 1 || tabCase[i+1][j - 1].routePresente == 1 ||
+                    tabCase[i+2][j - 1].routePresente == 1 || tabCase[i+3][j-1].routePresente == 1 ||
+                    tabCase[i + 4][j - 1].routePresente == 1 || tabCase[i + 5][j -1].routePresente == 1 ||
+
+                    tabCase[i][j + 4].routePresente == 1 || tabCase[i+1][j + 4].routePresente == 1 ||
+                    tabCase[i+2][j + 4].routePresente == 1 || tabCase[i+3][j+ 4].routePresente == 1 ||
+                    tabCase[i + 4][j + 4].routePresente == 1 || tabCase[i + 5][j + 4].routePresente == 1 ||
+
+                    tabCase[i-1][j ].routePresente == 1 || tabCase[i - 1][j + 1].routePresente == 1 ||
+                    tabCase[i -1][j + 2].routePresente == 1 || tabCase[i - 1][j+3].routePresente == 1 ||
+
+                    tabCase[i+6][j].routePresente == 1 || tabCase[i +6][j + 1].routePresente == 1 ||
+                    tabCase[i +6][j + 2].routePresente == 1 || tabCase[i +6][j+3].routePresente == 1 ) {
+
+                    ameliorerHabitation(compteur,tabCase);
+
+                }
+            }
+
+
+        }
+    }
+
 }
 
 
@@ -288,12 +319,14 @@ void jeu(){
                                 if (!etats.etatNoClick) {
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                                 }
-                                ameliorerHabitation(compteur, tabCase,compteurMaison);
+                                ameliorerHabitation(compteur, tabCase);
+                                //chateauDeauConnexe(tabCase,compteur);
                                 afficherHabitation(tabCase);
                                 afficherRoute(tabCase, images);
                                 afficherChateauDeau(tabCase);
                                 afficherCentraleElectrique(tabCase);
                                 afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
+                                impotTaxe(&informationJeu,compteur);
                             } else if (etats.couche2) {
                             } else if (etats.couche3) {
                             }
