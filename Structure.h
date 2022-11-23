@@ -100,7 +100,6 @@ typedef struct {
 
 
 #include "affichage.h"
-#include "menu.h"
 #include "jeu.h"
 
 #endif //ECE_CITY_1_I_STRUCTURE_H

@@ -363,7 +363,7 @@ void jeu(){
                                 if (!etats.etatNoClick) {
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                                 }
-                                ameliorerHabitation(compteur, tabCase);
+                                ameliorerHabitation(compteur, tabCase,&informationJeu);
                                 //chateauDeauConnexe(tabCase,compteur);
                                 afficherRoute(tabCase, images);
                                 afficherChateauDeau(tabCase,images);
