@@ -205,6 +205,10 @@ void jeu(){
     images.chateau = al_load_bitmap("../Images/chateau.png");
     images.bulldozer = al_load_bitmap("../Images/bulldozer.png");
     images.terrain0 = al_load_bitmap("../Images/terrain vague.png");
+    images.terrain1 = al_load_bitmap("../Images/cabane.png");
+    images.terrain2 = al_load_bitmap("../Images/maison1.png");
+    images.terrain3 = al_load_bitmap("../Images/immeuble.png");
+    images.terrain4 = al_load_bitmap("../Images/gratte-ciel.png");
     images.curseur = al_load_bitmap("../Images/curseur.png");
 
     //Booléens
@@ -320,7 +324,7 @@ void jeu(){
                                 if (!etats.etatNoClick) {
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                                 }
-                                ameliorerHabitation(compteur, tabCase,compteurMaison);
+                                ameliorerHabitation(compteur, tabCase);
                                 afficherHabitation(tabCase,images);
                                 //chateauDeauConnexe(tabCase,compteur);
                                 afficherRoute(tabCase, images);
