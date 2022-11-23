@@ -9,11 +9,11 @@ void afficherRoute(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
 void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
 void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int* nbMaison,InformationJeu* informationJeu,long long compteur, long long* compteurMaison,CoutBatiment coutBatiment);
 void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu,CoutBatiment coutBatiment,int* nbChateauDeau);
-void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
 void afficherCaseCurseur(int x1, int x2, int y1, int y2,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], Images images, Etats etats);
 void afficherCompteur(Fonts fonts, long long * compteur, int* chrono);
 void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu* informationJeu,CoutBatiment coutBatiment,int* nbCentrale);
-void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
+void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
 void demolir(int bouton,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,InformationJeu* informationJeu,int demolir);
 void afficherModeDeJeu(Etats etats,Fonts fonts);
 

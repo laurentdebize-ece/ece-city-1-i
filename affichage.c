@@ -288,11 +288,11 @@ void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEUR
 }
 
 
-void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].chateauDeauPresent == 1 ){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(0,0,200));
+            if (tabCase[i][j].chateauDeauPresent == 1 && tabCase[i][j].numeroChateauDeau==tabCase[i+5][j+3].numeroChateauDeau){
+                al_draw_bitmap(images.watertower,XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),0);
             }
         }
     }
@@ -362,11 +362,11 @@ void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case ta
 }
 
 
-void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].centraleElectriquePresente == 1 ){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(255,255,0));
+            if (tabCase[i][j].centraleElectriquePresente == 1 && tabCase[i][j].numeroCentrale==tabCase[i+5][j+3].numeroCentrale){
+                al_draw_bitmap(images.centrale,XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),0);
             }
         }
     }

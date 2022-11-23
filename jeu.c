@@ -210,6 +210,8 @@ void jeu(){
     images.terrain3 = al_load_bitmap("../Images/immeuble.png");
     images.terrain4 = al_load_bitmap("../Images/gratte-ciel.png");
     images.curseur = al_load_bitmap("../Images/curseur.png");
+    images.watertower = al_load_bitmap("../Images/watertower.png");
+    images.centrale = al_load_bitmap("../Images/centrale.png");
 
     //Booléens
     etats.fin = 0;
@@ -328,8 +330,8 @@ void jeu(){
                                 afficherHabitation(tabCase,images);
                                 //chateauDeauConnexe(tabCase,compteur);
                                 afficherRoute(tabCase, images);
-                                afficherChateauDeau(tabCase);
-                                afficherCentraleElectrique(tabCase);
+                                afficherChateauDeau(tabCase,images);
+                                afficherCentraleElectrique(tabCase,images);
                                 afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                                 impotTaxe(&informationJeu,compteur);
                             } else if (etats.couche2) {
