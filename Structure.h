@@ -11,7 +11,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 764
+#define HAUTEUR_FE 768
 #define LARGEUR_FE 1264
 #define NBHAUTEURCASE 35
 #define NBLARGEURCASE 45
@@ -51,7 +51,7 @@ typedef struct {
 
 typedef struct {
     ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,
-    *chateau,*usine,*bulldozer,*curseur,*terrain0,*terrain1,*terrain2,*terrain3,*terrain4;
+    *chateau,*usine,*bulldozer,*curseur,*terrain0,*terrain1,*terrain2,*terrain3,*terrain4,*watertower,*centrale;
 }Images;
 
 typedef struct{

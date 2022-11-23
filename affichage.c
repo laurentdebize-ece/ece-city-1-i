@@ -9,7 +9,9 @@ void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJ
     }else if(etats.couche3){
         afficherTroisiemeCouche(images,fonts);
     }
-    afficherCompteur(fonts, compteur, chrono);
+    if(!etats.etatEchap) {
+        afficherCompteur(fonts, compteur, chrono);
+    }
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++){
             al_draw_rectangle(XDepart + (j*LARGEURCASE), YDepart + (i*LARGEURCASE), XDepart+ LARGEURCASE + (j*LARGEURCASE), YDepart + LARGEURCASE + (i*LARGEURCASE),
@@ -208,16 +210,16 @@ void definirCaseHabitation(ALLEGRO_EVENT event, int habitation, Case tabCase[NBH
 void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 0){
+            if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 0 && (tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison)){
                 al_draw_bitmap(images.terrain0,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),0);
-            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 1){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(0,0,255));
-            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 2){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(0,0,100));
-            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 3){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(0,0,0));
-            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 4){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(128,128,128));
+            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 1 && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
+                al_draw_bitmap(images.terrain1,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),0);
+            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 2 && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
+                al_draw_bitmap(images.terrain2,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),0);
+            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 3 && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
+                al_draw_bitmap(images.terrain3,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),0);
+            }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 4 && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
+                al_draw_bitmap(images.terrain4,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE)-109,0);
             }
         }
     }
@@ -286,11 +288,11 @@ void definirCaseChateauDeau(ALLEGRO_EVENT event, int eau, Case tabCase[NBHAUTEUR
 }
 
 
-void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+void afficherChateauDeau(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].chateauDeauPresent == 1 ){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(0,0,200));
+            if (tabCase[i][j].chateauDeauPresent == 1 && tabCase[i][j].numeroChateauDeau==tabCase[i+5][j+3].numeroChateauDeau){
+                al_draw_bitmap(images.watertower,XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),0);
             }
         }
     }
@@ -360,11 +362,11 @@ void definirCaseCentraleElectrique(ALLEGRO_EVENT event, int electricite, Case ta
 }
 
 
-void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].centraleElectriquePresente == 1 ){
-                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + LARGEURCASE + (j * LARGEURCASE) ,YDepart + LARGEURCASE + (i * LARGEURCASE), al_map_rgb(255,255,0));
+            if (tabCase[i][j].centraleElectriquePresente == 1 && tabCase[i][j].numeroCentrale==tabCase[i+5][j+3].numeroCentrale){
+                al_draw_bitmap(images.centrale,XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),0);
             }
         }
     }
