@@ -219,7 +219,7 @@ void afficherHabitation(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images
             }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 3 && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
                 al_draw_bitmap(images.terrain3,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),0);
             }else if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].niveauBatiment== 4 && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
-                al_draw_bitmap(images.terrain4,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),0);
+                al_draw_bitmap(images.terrain4,XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE)-109,0);
             }
         }
     }

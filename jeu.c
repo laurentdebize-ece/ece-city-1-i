@@ -188,9 +188,15 @@ void jeu(){
     timer = al_create_timer(0.1);
 
     //Images
-    images.menuPrincipal = al_load_bitmap("../Images/menuPrincipal1.png");
-    images.staline = al_load_bitmap("../Images/Staline.png");
-    images.trump = al_load_bitmap("../Images/Trump.png");
+    if(LARGEUR_FE==1024) {
+        images.menuPrincipal = al_load_bitmap("../Images/menuPrincipal1.png");
+        images.staline = al_load_bitmap("../Images/Staline.png");
+        images.trump = al_load_bitmap("../Images/Trump.png");
+    }else{
+        images.menuPrincipal= al_load_bitmap("../Images/menuPrincipal2.png");
+        images.trump = al_load_bitmap("../Images/Trump1.png");
+        images.staline = al_load_bitmap("../Images/Staline1.png");
+    }
     images.map = al_load_bitmap("../Images/map.png");
     images.route1 = al_load_bitmap("../Images/route.png");
     images.route2 = al_load_bitmap("../Images/route2.png");
@@ -327,11 +333,11 @@ void jeu(){
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                                 }
                                 ameliorerHabitation(compteur, tabCase);
-                                afficherHabitation(tabCase,images);
                                 //chateauDeauConnexe(tabCase,compteur);
                                 afficherRoute(tabCase, images);
                                 afficherChateauDeau(tabCase,images);
                                 afficherCentraleElectrique(tabCase,images);
+                                afficherHabitation(tabCase,images);
                                 afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                                 impotTaxe(&informationJeu,compteur);
                             } else if (etats.couche2) {

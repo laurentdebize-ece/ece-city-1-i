@@ -11,7 +11,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#define HAUTEUR_FE 764
+#define HAUTEUR_FE 768
 #define LARGEUR_FE 1264
 #define NBHAUTEURCASE 35
 #define NBLARGEURCASE 45
