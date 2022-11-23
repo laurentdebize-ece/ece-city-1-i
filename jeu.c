@@ -14,6 +14,8 @@ void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
             tabCase[i][j].construisibilite = 0;
             tabCase[i][j].niveauBatiment = 0;
             tabCase[i][j].numeroMaison = 0;
+            tabCase[i][j].niveauMaxHabitation = 0;
+            tabCase[i][j].couleur = 0;
         }
     }
 }
@@ -85,21 +87,47 @@ void choixBoiteAoutil(ALLEGRO_EVENT event, Etats *etats){
 }
 
 
-
-void ameliorerHabitation(long long compteur,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
-    if ((compteur%50 == 0)){
+void ameliorerHabitation(long long compteur, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], InformationJeu *informationJeu) {
+    if ((compteur % 50 == 0)) {
         for (int i = 0; i < NBHAUTEURCASE; i++) {
-            for (int j = 0; j < NBLARGEURCASE; j++){
-                if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].construisibilite == 1){
-                    if (tabCase[i][j-1].routePresente == 1 || tabCase[i+1][j-1].routePresente == 1 || tabCase[i+2][j-1].routePresente == 1 || tabCase[i+3][j].routePresente == 1 || tabCase[i+3][j+1].routePresente == 1 || tabCase[i+3][j+2].routePresente == 1 || tabCase[i][j+3].routePresente == 1 || tabCase[i+1][j+3].routePresente == 1 || tabCase[i+2][j+3].routePresente == 1 || tabCase[i-1][j].routePresente == 1 || tabCase[i-1][j+1].routePresente == 1 || tabCase[i-1][j+2].routePresente == 1 ){
-                        for (int k =i; k < i+3; k++){
-                            for (int l=j ; l < j+3; l++){
-                                if (tabCase[k][l].niveauBatiment < 4){
+            for (int j = 0; j < NBLARGEURCASE; j++) {
+                if (tabCase[i][j].habitationPresente == 1 && tabCase[i][j].construisibilite == 1) {
+                    if (tabCase[i][j - 1].routePresente == 1 || tabCase[i + 1][j - 1].routePresente == 1 ||
+                        tabCase[i + 2][j - 1].routePresente == 1 || tabCase[i + 3][j].routePresente == 1 ||
+                        tabCase[i + 3][j + 1].routePresente == 1 || tabCase[i + 3][j + 2].routePresente == 1 ||
+                        tabCase[i][j + 3].routePresente == 1 || tabCase[i + 1][j + 3].routePresente == 1 ||
+                        tabCase[i + 2][j + 3].routePresente == 1 || tabCase[i - 1][j].routePresente == 1 ||
+                        tabCase[i - 1][j + 1].routePresente == 1 || tabCase[i - 1][j + 2].routePresente == 1) {
+                        for (int k = i; k < i + 3; k++) {
+                            for (int l = j; l < j + 3; l++) {
+                                if (tabCase[k][l].niveauBatiment <= 4) {
                                     tabCase[k][l].niveauBatiment++;
+
                                 }
                             }
                         }
                     }
+                }
+
+                if (tabCase[i][j].niveauBatiment == 1 && tabCase[i][j].construisibilite == 1 &&
+                    tabCase[i][j].niveauMaxHabitation == 0) {
+                    informationJeu->habitant += 10;
+                }
+                if (tabCase[i][j].niveauBatiment == 2 && tabCase[i][j].construisibilite == 1 &&
+                    tabCase[i][j].niveauMaxHabitation == 0) {
+                    informationJeu->habitant += 40;
+                }
+                if (tabCase[i][j].niveauBatiment == 3 && tabCase[i][j].construisibilite == 1 &&
+                    tabCase[i][j].niveauMaxHabitation == 0) {
+                    informationJeu->habitant += 50;
+                }
+                if (tabCase[i][j].niveauBatiment == 4 && tabCase[i][j].construisibilite == 1 &&
+                    tabCase[i][j].niveauMaxHabitation == 0) {
+                    informationJeu->habitant += 900;
+
+                }
+                if (tabCase[i][j].niveauBatiment == 4) {
+                    tabCase[i][j].niveauMaxHabitation = 1;
                 }
             }
         }
@@ -112,34 +140,36 @@ void impotTaxe(InformationJeu* informationJeu, long long compteur){
     }
 }
 
-void chateauDeauConnexe(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE], long long compteur){
+void chateauDeauConnexe(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu* informationJeu) {
 
-    for (int i = 0; i < NBHAUTEURCASE; i++) {
-        for (int j = 0; j < NBLARGEURCASE; j++) {
-            if (tabCase[i][j].chateauDeauPresent && tabCase[i][j].construisibilite){
+   for (int i = 0; i < NBHAUTEURCASE; i++) {
+       for (int j = 0; j < NBLARGEURCASE; j++) {
+            if (tabCase[i][j].chateauDeauPresent && tabCase[i][j].construisibilite) {
+                if (tabCase[i][j - 1].routePresente == 1 || tabCase[i + 1][j - 1].routePresente == 1 ||
+                    tabCase[i + 2][j - 1].routePresente == 1 || tabCase[i + 3][j - 1].routePresente == 1 ||
+                    tabCase[i + 4][j - 1].routePresente == 1 || tabCase[i + 5][j - 1].routePresente == 1 ||
 
-                if (tabCase[i][j - 1].routePresente == 1 || tabCase[i+1][j - 1].routePresente == 1 ||
-                    tabCase[i+2][j - 1].routePresente == 1 || tabCase[i+3][j-1].routePresente == 1 ||
-                    tabCase[i + 4][j - 1].routePresente == 1 || tabCase[i + 5][j -1].routePresente == 1 ||
-
-                    tabCase[i][j + 4].routePresente == 1 || tabCase[i+1][j + 4].routePresente == 1 ||
-                    tabCase[i+2][j + 4].routePresente == 1 || tabCase[i+3][j+ 4].routePresente == 1 ||
+                    tabCase[i][j + 4].routePresente == 1 || tabCase[i + 1][j + 4].routePresente == 1 ||
+                    tabCase[i + 2][j + 4].routePresente == 1 || tabCase[i + 3][j + 4].routePresente == 1 ||
                     tabCase[i + 4][j + 4].routePresente == 1 || tabCase[i + 5][j + 4].routePresente == 1 ||
 
-                    tabCase[i-1][j ].routePresente == 1 || tabCase[i - 1][j + 1].routePresente == 1 ||
-                    tabCase[i -1][j + 2].routePresente == 1 || tabCase[i - 1][j+3].routePresente == 1 ||
+                    tabCase[i - 1][j].routePresente == 1 || tabCase[i - 1][j + 1].routePresente == 1 ||
+                    tabCase[i - 1][j + 2].routePresente == 1 || tabCase[i - 1][j + 3].routePresente == 1 ||
 
-                    tabCase[i+6][j].routePresente == 1 || tabCase[i +6][j + 1].routePresente == 1 ||
-                    tabCase[i +6][j + 2].routePresente == 1 || tabCase[i +6][j+3].routePresente == 1 ) {
+                    tabCase[i + 6][j].routePresente == 1 || tabCase[i + 6][j + 1].routePresente == 1 ||
+                    tabCase[i + 6][j + 2].routePresente == 1 || tabCase[i + 6][j + 3].routePresente == 1) {
 
-                    ameliorerHabitation(compteur,tabCase);
+                    informationJeu->capaciteEau += 5000;
 
                 }
+
+
             }
 
 
         }
     }
+
 
 }
 
@@ -176,6 +206,7 @@ void jeu(){
     long long compteurMaison= 0;
     int xMouse;
     int yMouse;
+    int nbCase = 0;
     Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
 
     initialisationCase(tabCase);
@@ -280,6 +311,8 @@ void jeu(){
                         definirCaseCentraleElectrique(event, etats.electricite, tabCase, &informationJeu,coutBatiment,&nbCentrale);
                         definirCaseHabitation(event, etats.habitation, tabCase, &nbMaison,&informationJeu,compteur,&compteurMaison,coutBatiment);
                         demolir(etats.etatBoutonReglage,tabCase,xMouse,yMouse,&informationJeu,etats.demolir);
+                        printf("%d", nbCase);
+
                     }
                 }
                 break;
@@ -319,8 +352,8 @@ void jeu(){
                                 if (!etats.etatNoClick) {
                                     definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                                 }
-                                ameliorerHabitation(compteur, tabCase);
-                                //chateauDeauConnexe(tabCase,compteur);
+                                ameliorerHabitation(compteur, tabCase,&informationJeu);
+                                //chateauDeauConnexe(tabCase,&informationJeu);
                                 afficherHabitation(tabCase);
                                 afficherRoute(tabCase, images);
                                 afficherChateauDeau(tabCase);

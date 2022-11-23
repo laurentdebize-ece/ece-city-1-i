@@ -46,6 +46,9 @@ typedef struct {
     int numeroCentrale;
     int valeurDansLeFichierTexte;
     int caseConnexeRoute;
+    int niveauMaxHabitation;
+    int couleur;
+    int pred;
 }Case;
 
 
