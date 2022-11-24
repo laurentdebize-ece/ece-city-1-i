@@ -116,6 +116,8 @@ void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int 
                         tabCase[i][j].routePresente = 1;
                         tabCase[i][j].caseConnexeRoute = 0;
                         informationJeu->argent -= coutBatiment.route;
+
+
                     }
                 } else if (bouton == 2) {
                     if (route == 1) {
