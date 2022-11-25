@@ -405,7 +405,7 @@ void jeu(){
                 } else if (etats.etatEchap) {
                     afficherMenuEchap(fonts);
                 } else {
-                    affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono);
+                    affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono,tabCase);
                     if (etats.couche1) {
                         if (etats.etatBoutonReglage) {
                             if ((etats.etatCouche && (xMouse < LARGEUR_FE - 145 && yMouse > HAUTEUR_FE - 105

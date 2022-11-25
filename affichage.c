@@ -1,13 +1,13 @@
 #include "affichage.h"
 
-void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu,long long *compteur,int *chrono){
+void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu,long long *compteur,int *chrono,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
     al_clear_to_color(al_map_rgb(255,255,255));
     if(etats.couche1){
         afficherPremiereCouche(images,fonts);
     }else if(etats.couche2){
-        afficherDeuxiemeCouche(images,fonts);
+        afficherDeuxiemeCouche(images,fonts,tabCase,informationJeu);
     }else if(etats.couche3){
-        afficherTroisiemeCouche(images,fonts);
+        afficherTroisiemeCouche(images,fonts,tabCase,informationJeu);
     }
     if(!etats.etatEchap) {
         afficherCompteur(fonts, compteur, chrono);
@@ -546,12 +546,20 @@ void afficherPremiereCouche(Images images,Fonts fonts){
     al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Surface");
 }
 
-void afficherDeuxiemeCouche(Images images,Fonts fonts){
+void afficherDeuxiemeCouche(Images images,Fonts fonts,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu informationJeu){
     al_draw_bitmap(images.couches,XDepart,YDepart,0);
     al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Electricité");
+    for (int i = 0; i < NBHAUTEURCASE; i++) {
+        for (int j = 0; j < NBLARGEURCASE; j++) {
+            if (tabCase[i][j].routePresente == 1 && informationJeu.capaciteElectricite>0){
+                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + (j * LARGEURCASE)+LARGEURCASE,YDepart + (i * LARGEURCASE)+LARGEURCASE,
+                                         al_map_rgb(154,205,50));
+            }
+        }
+    }
 }
 
-void afficherTroisiemeCouche(Images images,Fonts fonts){
+void afficherTroisiemeCouche(Images images,Fonts fonts,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu informationJeu){
     al_draw_bitmap(images.couches,XDepart,YDepart,0);
     al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Eau");
 }
