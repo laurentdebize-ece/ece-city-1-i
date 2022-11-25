@@ -17,7 +17,7 @@ void afficherCentraleElectrique(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],Image
 void demolir(int bouton,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,InformationJeu* informationJeu,int demolir);
 void afficherModeDeJeu(Etats etats,Fonts fonts);
 
-void affichageMenuPrincipal(Images images,Fonts fonts);
+void affichageMenuPrincipal(Images images,Fonts fonts,int x, int y);
 
 void choixMenuPrincipal(Etats *etats,int x,int y);
 

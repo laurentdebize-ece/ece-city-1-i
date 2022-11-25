@@ -78,7 +78,7 @@ typedef struct {
 
 typedef struct {
     ALLEGRO_BITMAP *menuPrincipal,*staline,*trump,*map,*route1,*route2,*maison,*roue,*eclair,*eau,*herbe,*couches,*boutonCouches,
-            *chateau,*usine,*bulldozer,*curseur,*terrain0,*terrain1,*terrain2,*terrain3,*terrain4,*watertower,*centrale;
+    *chateau,*usine,*bulldozer,*curseur,*terrain0,*terrain1,*terrain2,*terrain3,*terrain4,*watertower,*centrale,*sauvegarde;
 }Images;
 
 typedef struct{
@@ -104,7 +104,6 @@ typedef struct {
 
 
 #include "affichage.h"
-
 #include "jeu.h"
 
 #endif //ECE_CITY_1_I_STRUCTURE_H

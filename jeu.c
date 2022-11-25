@@ -314,6 +314,7 @@ void jeu(){
     images.curseur = al_load_bitmap("../Images/curseur.png");
     images.watertower = al_load_bitmap("../Images/watertower.png");
     images.centrale = al_load_bitmap("../Images/centrale.png");
+    images.sauvegarde = al_load_bitmap("../Images/bouton sauvegarde.png");
 
     //Booléens
     etats.fin = 0;
@@ -394,33 +395,50 @@ void jeu(){
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES:
-                caseSouris(event, &x1, &x2, &y1, &y2);
-                xMouse = event.mouse.x;
-                yMouse = event.mouse.y;
-                break;
-            case ALLEGRO_EVENT_TIMER: {
-                if (etats.etatMenuPrincipal) {
-                    affichageMenuPrincipal(images, fonts);
-                } else if (etats.etatMode) {
-                    affichageMode(images, fonts);
-                } else if (etats.etatEchap) {
-                    afficherMenuEchap(fonts);
-                } else {
-                    affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono);
-                    if (etats.couche1) {
-                        if (etats.etatBoutonReglage) {
-                            if ((etats.etatCouche && (xMouse < LARGEUR_FE - 145 && yMouse > HAUTEUR_FE - 105
-                                                      && xMouse > LARGEUR_FE - 340 &&
-                                                      yMouse < HAUTEUR_FE - 45)) || (xMouse < LARGEUR_FE - 65
-                                                                                     &&
-                                                                                     yMouse < HAUTEUR_FE - 45 &&
-                                                                                     xMouse >
-                                                                                     LARGEUR_FE - 275 &&
-                                                                                     yMouse >
-                                                                                     HAUTEUR_FE - 165)) {
-                                etats.etatNoClick = 1;
-                            } else {
-                                etats.etatNoClick = 0;
+                        caseSouris(event, &x1, &x2, &y1, &y2);
+                        xMouse = event.mouse.x;
+                        yMouse = event.mouse.y;
+                        break;
+                    case ALLEGRO_EVENT_TIMER: {
+                        if (etats.etatMenuPrincipal) {
+                            affichageMenuPrincipal(images, fonts,xMouse,yMouse);
+                        } else if (etats.etatMode) {
+                            affichageMode(images, fonts);
+                        } else if (etats.etatEchap) {
+                            afficherMenuEchap(fonts);
+                        } else {
+                            affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono);
+                            if (etats.couche1) {
+                                if (etats.etatBoutonReglage) {
+                                    if ((etats.etatCouche && (xMouse < LARGEUR_FE - 145 && yMouse > HAUTEUR_FE - 105
+                                                              && xMouse > LARGEUR_FE - 340 &&
+                                                              yMouse < HAUTEUR_FE - 45)) || (xMouse < LARGEUR_FE - 65
+                                                                                             &&
+                                                                                             yMouse < HAUTEUR_FE - 45 &&
+                                                                                             xMouse >
+                                                                                             LARGEUR_FE - 275 &&
+                                                                                             yMouse >
+                                                                                             HAUTEUR_FE - 165)) {
+                                        etats.etatNoClick = 1;
+                                    } else {
+                                        etats.etatNoClick = 0;
+                                    }
+                                } else {
+                                    etats.etatNoClick = 0;
+                                }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
+                                if (!etats.etatNoClick) {
+                                    definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
+                                }
+                                ameliorerHabitation(compteur, tabCase,&informationJeu);
+                                //chateauDeauConnexe(tabCase,compteur);
+                                afficherRoute(tabCase, images);
+                                afficherChateauDeau(tabCase,images);
+                                afficherCentraleElectrique(tabCase,images);
+                                afficherHabitation(tabCase,images);
+                                afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
+                                impotTaxe(&informationJeu,compteur);
+                            } else if (etats.couche2) {
+                            } else if (etats.couche3) {
                             }
                         } else {
                             etats.etatNoClick = 0;
