@@ -471,23 +471,33 @@ void afficherCaseCurseur(int x1,int x2,int y1,int y2,Case tabCase[NBHAUTEURCASE]
 
 
 
-void affichageMenuPrincipal(Images images,Fonts fonts){
+void affichageMenuPrincipal(Images images,Fonts fonts,int x,int y){
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(images.menuPrincipal,0,0,0);
-    al_draw_filled_rectangle(LARGEUR_FE/2 -75,HAUTEUR_FE-100,LARGEUR_FE/2 +75,HAUTEUR_FE-175, al_map_rgb(123, 165, 248));
-    al_draw_rectangle(LARGEUR_FE/2 -75,HAUTEUR_FE-100,LARGEUR_FE/2 +75,HAUTEUR_FE-175, al_map_rgb(0,0,0),1);
+    al_draw_filled_rectangle(LARGEUR_FE/2 -75,HAUTEUR_FE-100,LARGEUR_FE/2 +75,HAUTEUR_FE-180, al_map_rgb(123, 165, 248));
+    al_draw_rectangle(LARGEUR_FE/2 -75,HAUTEUR_FE-100,LARGEUR_FE/2 +75,HAUTEUR_FE-180, al_map_rgb(0,0,0),1);
     al_draw_textf(fonts.font1, al_map_rgb(255,255,255),LARGEUR_FE/2 -70,HAUTEUR_FE-165,0,"Continuer");
     al_draw_filled_rectangle(0,HAUTEUR_FE-50,150,HAUTEUR_FE, al_map_rgb(0,0,0));
     al_draw_textf(fonts.font1, al_map_rgb(255,255,255),25,HAUTEUR_FE-45,0,"Quitter");
+    al_draw_filled_rectangle(LARGEUR_FE/2 +75,HAUTEUR_FE-100,LARGEUR_FE/2 +145,HAUTEUR_FE-180, al_map_rgb(123, 165, 248));
+    al_draw_rectangle(LARGEUR_FE/2 +75,HAUTEUR_FE-100,LARGEUR_FE/2 +145,HAUTEUR_FE-180, al_map_rgb(0,0,0),1);
+    al_draw_bitmap(images.sauvegarde,LARGEUR_FE/2 +80,HAUTEUR_FE-175,0);
+    if((x>LARGEUR_FE/2 +75 && x<LARGEUR_FE/2 +145) && (y>HAUTEUR_FE-180 && y<HAUTEUR_FE-100)){
+        al_draw_filled_rectangle(x-85,y,x+85,y+40, al_map_rgb(169,169,169));
+        al_draw_textf(fonts.font3, al_map_rgb(0,0,0),x-80,y+5,0,"Charger Partie");
+    }
 }
 
 
 void choixMenuPrincipal(Etats *etats,int x,int y){
-    if((x>LARGEUR_FE/2 -75 && x<LARGEUR_FE/2 +75) && (y>HAUTEUR_FE-175 && y<HAUTEUR_FE-100)){
+    if((x>LARGEUR_FE/2 -75 && x<LARGEUR_FE/2 +75) && (y>HAUTEUR_FE-180 && y<HAUTEUR_FE-100)){
         etats->etatMenuPrincipal=0;
     }
     if((x>0 && x<150) && (y>HAUTEUR_FE-50 && y<HAUTEUR_FE)){
         etats->fin=1;
+    }
+    if((x>LARGEUR_FE/2 +75 && x<LARGEUR_FE/2 +145) && (y>HAUTEUR_FE-180 && y<HAUTEUR_FE-100)){
+        //charger sauvegarde
     }
 }
 
@@ -548,7 +558,6 @@ void afficherTroisiemeCouche(Images images,Fonts fonts){
 
 void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y){
     al_draw_filled_rectangle(LARGEUR_FE-65,HAUTEUR_FE-105,LARGEUR_FE-145,HAUTEUR_FE-45, al_map_rgb(169,169,169));
-    al_draw_filled_rectangle(LARGEUR_FE-275,HAUTEUR_FE-230,LARGEUR_FE-65,HAUTEUR_FE-115, al_map_rgb(169,169,169));
     al_draw_bitmap(images.boutonCouches,LARGEUR_FE-130,HAUTEUR_FE-100,0);
     if(!etats->etatCouche) {
         if (etats->couche1) {
@@ -557,6 +566,7 @@ void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y)
             al_draw_filled_rectangle(LARGEUR_FE - 145, HAUTEUR_FE - 105, LARGEUR_FE - 275, HAUTEUR_FE - 45,
                                      al_map_rgb(169, 169, 169));
             al_draw_bitmap(images.route2, LARGEUR_FE - 195, HAUTEUR_FE - 100, 0);
+            al_draw_filled_rectangle(LARGEUR_FE-275,HAUTEUR_FE-230,LARGEUR_FE-65,HAUTEUR_FE-115, al_map_rgb(169,169,169));
             if(etats->route){
                 al_draw_filled_rectangle(LARGEUR_FE-195,HAUTEUR_FE-100,LARGEUR_FE-145,HAUTEUR_FE-50, al_map_rgba(169,169,169,200));
             }
