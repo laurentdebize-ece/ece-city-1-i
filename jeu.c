@@ -3,10 +3,50 @@
 //
 
 #include "jeu.h"
+#include "stdio.h"
+InformationJeu sauvegarde_information_joueur( InformationJeu joueur) {
+
+    FILE *fichier = fopen("C:\\Clionprojects\\ece-city-1-i\\sauvegardeinformationJoueur.txt", "w");
+
+    int argent, nombrehabitantsdeLavville;
+
+    nombrehabitantsdeLavville = joueur.habitant;
+    argent = joueur.argent;
+    fscanf(fichier, "%d %d", &argent, &nombrehabitantsdeLavville);
+    fprintf(fichier, "%d\n", argent);
+    fprintf(fichier, "%d\n", nombrehabitantsdeLavville);
+    return joueur;
+}
+
+
+CoutBatiment  lire_fichier_texte(char *nomFichier){
+    CoutBatiment coutBatiment;
+    FILE *input = fopen(nomFichier, "r");
+    for (int i = 0; i !=2; i++) {
+        fscanf(input,"%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",&coutBatiment.route,&coutBatiment.canalisation,
+               &coutBatiment.ligneelectrique,
+               &coutBatiment.cabane,&coutBatiment.maison,&coutBatiment.immeuble,
+               &coutBatiment.gratteciel,&coutBatiment.chateauDeau,&coutBatiment.centraleElectrique,
+               &coutBatiment.terrainVague,&coutBatiment.caserne,
+               &coutBatiment.nombrehabitantsroute,&coutBatiment.nombrehabitantscanalisation,
+               &coutBatiment.nombrehabitantsligneelectrique,
+               &coutBatiment.nombrehabitantscabane,&coutBatiment.nombrehabitantsmaison,&coutBatiment.nombrehabitantsimmeuble,
+               &coutBatiment.nombrehabitantsgratteciel,&coutBatiment.nombrehabitantschateauDeau,&coutBatiment.nombrehabitantscentraleElectrique,
+               &coutBatiment.nombrehabitantsterrainVague,&coutBatiment.nombrehabitantsterrainVague);
+
+    }
+    return coutBatiment;
+
+
+}
+
 
 void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
+
+
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
+
             tabCase[i][j].routePresente = 0;
             tabCase[i][j].habitationPresente = 0;
             tabCase[i][j].chateauDeauPresent = 0;
@@ -27,12 +67,7 @@ void initialiserInfoJeu(InformationJeu* informationJeu){
     informationJeu->habitant = 0;
 }
 
-void initialisationCoutBatiment(CoutBatiment* coutBatiment){
-    coutBatiment->route = 10;
-    coutBatiment->terrainVague = 1000;
-    coutBatiment->centraleElectrique = 100000;
-    coutBatiment->chateauDeau = 100000;
-}
+
 
 void calculCaseTabPixel(int* i,int* j,int x1,int y1){
     *i = (y1-YDepart)/LARGEURCASE;
@@ -142,8 +177,8 @@ void impotTaxe(InformationJeu* informationJeu, long long compteur){
 
 void chateauDeauConnexe(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu* informationJeu) {
 
-   for (int i = 0; i < NBHAUTEURCASE; i++) {
-       for (int j = 0; j < NBLARGEURCASE; j++) {
+    for (int i = 0; i < NBHAUTEURCASE; i++) {
+        for (int j = 0; j < NBLARGEURCASE; j++) {
             if (tabCase[i][j].chateauDeauPresent && tabCase[i][j].construisibilite) {
                 if (tabCase[i][j - 1].routePresente == 1 || tabCase[i + 1][j - 1].routePresente == 1 ||
                     tabCase[i + 2][j - 1].routePresente == 1 || tabCase[i + 3][j - 1].routePresente == 1 ||
@@ -175,6 +210,7 @@ void chateauDeauConnexe(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJe
 
 
 void jeu(){
+
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_EVENT event = {0};
@@ -208,10 +244,39 @@ void jeu(){
     int yMouse;
     int nbCase = 0;
     Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
+    //Case informationPlateau;
 
     initialisationCase(tabCase);
     initialiserInfoJeu(&informationJeu);
-    initialisationCoutBatiment(&coutBatiment);
+    coutBatiment = lire_fichier_texte("C:\\Clionprojects\\ece-city-1-i\\informationGlobal.txt");
+    //informationPlateau = lecture_fichier_texte2("C:\\Clionprojects\\ece-city-1-i\\plateauniveau000.txt");
+
+
+
+
+/*int k,l;
+    for (k = 0; k < NOMBRE_DE_LIGNE; k++) {
+        printf("\n");
+        for (l = 0; l < NOMBRE_DE_COLLONNE; l++) {
+            printf("%d ", informationPlateau.matriceDuplateau[k][l]);
+        }
+
+
+    }
+*/
+/*
+    for (int i = 0; i !=1 ; i++) {
+        printf("prix route = %d\nprix canalisation = %d\nprix ligne electrique = %d\n"
+               "prix cabane = %d\nprix maison = %d\nprix immeuble = %d\nprix gratte ciel = %d\n"
+               "prix chateau eau = %d\nprix centrale electrique = %d\n"
+               "prix terrain vague = %d\nprix caserne = %d\n"
+               "nombre habitants cabane = %d\nnombre habitants maison %d\nnombre habitants immeuble %d\n"
+               "nombre habitants gratte ciel %d\n",coutBatiment.route,coutBatiment.canalisation,coutBatiment.ligneelectrique,
+               coutBatiment.cabane,coutBatiment.maison,coutBatiment.immeuble,coutBatiment.gratteciel
+               ,coutBatiment.chateauDeau,coutBatiment.centraleElectrique,coutBatiment.terrainVague,coutBatiment.caserne,coutBatiment.nombrehabitantscabane,coutBatiment.nombrehabitantsmaison,coutBatiment.nombrehabitantsimmeuble
+               ,coutBatiment.nombrehabitantsgratteciel);
+
+    }*/
 
     display = al_create_display(LARGEUR_FE, HAUTEUR_FE);
 
@@ -375,15 +440,35 @@ void jeu(){
                             } else if (etats.couche2) {
                             } else if (etats.couche3) {
                             }
+                        } else {
+                            etats.etatNoClick = 0;
+                        }//Cette fonction sert à ne pas poser de route et d'autres sortes de structure lorsque l'on est dans un menu
+                        if (!etats.etatNoClick) {
+                            definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                         }
-                        al_flip_display();
-                        break;
+                        //ameliorerHabitation(compteur, tabCase);
+                        //chateauDeauConnexe(tabCase,compteur);
+                        afficherRoute(tabCase, images);
+                        afficherChateauDeau(tabCase,images);
+                        afficherCentraleElectrique(tabCase,images);
+                        afficherHabitation(tabCase,images);
+                        afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
+                        impotTaxe(&informationJeu,compteur);
+                    } else if (etats.couche2) {
+                    } else if (etats.couche3) {
                     }
-
                 }
-
-
+                al_flip_display();
+                break;
+            }
+                ;
         }
+        sauvegarde_information_joueur(informationJeu);
+
+
+    }
+
+
 
     al_destroy_display(display);
     al_destroy_event_queue(queue);
