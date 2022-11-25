@@ -249,6 +249,7 @@ void jeu(){
     images.curseur = al_load_bitmap("../Images/curseur.png");
     images.watertower = al_load_bitmap("../Images/watertower.png");
     images.centrale = al_load_bitmap("../Images/centrale.png");
+    images.sauvegarde = al_load_bitmap("../Images/bouton sauvegarde.png");
 
     //Booléens
     etats.fin = 0;
@@ -335,7 +336,7 @@ void jeu(){
                         break;
                     case ALLEGRO_EVENT_TIMER: {
                         if (etats.etatMenuPrincipal) {
-                            affichageMenuPrincipal(images, fonts);
+                            affichageMenuPrincipal(images, fonts,xMouse,yMouse);
                         } else if (etats.etatMode) {
                             affichageMode(images, fonts);
                         } else if (etats.etatEchap) {
