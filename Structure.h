@@ -49,7 +49,19 @@ typedef struct {
     int niveauMaxHabitation;
     int couleur;
     int pred;
+    int etatAmelioration;
+    bool chateauDeauConnexe;
+    bool centraleConnexe;
+    int chateauDeauQuiAlimente;
 }Case;
+
+typedef struct {
+    int capaciteDuChateauDeau;
+}ChateauDeau;
+
+typedef struct {
+    int capaciteDeLaCentrale;
+}Centrale;
 
 
 typedef struct {
@@ -66,38 +78,6 @@ typedef struct{
 typedef struct{
     ALLEGRO_FONT *font1,*font2,*font3;
 }Fonts;
-
-
-typedef struct {
-    int argent;
-    int nombrehabitantsdelaville;
-} Joueur;
-
-typedef struct {
-    int type;
-    int ligne, colonne;
-    int habitants;
-    int prix;
-} Batiment;
-
-typedef struct {
-    Batiment route;
-    Case valeurcasefichiertexte;
-    Joueur joueur;
-
-    Batiment canalisation;
-    Batiment ligneelectrique;
-    Batiment cabane;
-    Batiment maison;
-    Batiment immeuble;
-    Batiment gratteciel;
-    Batiment chateaueau;
-    Batiment centraleelectrique;
-    Batiment terrainvague;
-    int matriceDuplateau[35][45];
-} Global;
-
-
 
 #include "affichage.h"
 #include "menu.h"
