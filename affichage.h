@@ -2,7 +2,7 @@
 #define ECE_CITY_1_I_AFFICHAGE_H
 #include "Structure.h"
 
-void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu,long long *compteur,int *chrono);
+void affichageMap(Images images,Etats etats,Fonts fonts,int x,int y,InformationJeu informationJeu,long long *compteur,int *chrono,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
 void caseSouris(ALLEGRO_EVENT event, int* x1,int* x2, int* y1, int* y2);
 void definirCaseRoute(int route, Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],int xMouse,int yMouse,int bouton,InformationJeu* informationJeu,CoutBatiment coutBatiment);
 void afficherRoute(Case     tabCase[NBHAUTEURCASE][NBLARGEURCASE],Images images);
@@ -31,9 +31,9 @@ void choixMenuEchap(Etats *etats,int x,int y);
 
 void afficherPremiereCouche(Images images,Fonts fonts);
 
-void afficherDeuxiemeCouche(Images images,Fonts fonts);
+void afficherDeuxiemeCouche(Images images,Fonts fonts,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu informationJeu);
 
-void afficherTroisiemeCouche(Images images,Fonts fonts);
+void afficherTroisiemeCouche(Images images,Fonts fonts,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu informationJeu);
 
 void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y);
 

@@ -1,4 +1,3 @@
-
 #include "jeu.h"
 #include "stdio.h"
 
@@ -299,7 +298,6 @@ void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
 }
 
 void initialiserInfoJeu(InformationJeu* informationJeu){
-
     informationJeu->argent = 500000;
     informationJeu->capaciteEau = 0;
     informationJeu->capaciteElectricite = 0;
@@ -634,7 +632,6 @@ int k,l;
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_set_window_position(display, 0, 0);
 
-
     al_start_timer(timer);
 
     while (etats.fin == 0) {
@@ -696,7 +693,7 @@ int k,l;
                 } else if (etats.etatEchap) {
                     afficherMenuEchap(fonts);
                 } else {
-                    affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono);
+                    affichageMap(images, etats, fonts, xMouse, yMouse,informationJeu,&compteur,&chrono,tabCase);
                     if (etats.couche1) {
                         if (etats.etatBoutonReglage) {
                             if ((etats.etatCouche && (xMouse < LARGEUR_FE - 145 && yMouse > HAUTEUR_FE - 105
@@ -724,7 +721,6 @@ int k,l;
                         afficherCentraleElectrique(tabCase,images);
                         afficherHabitation(tabCase,images);
                         ameliorerHabitation(compteur, tabCase,&informationJeu);
-
                         afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                         impotTaxe(&informationJeu,compteur);
                     } else if (etats.couche2) {
@@ -741,6 +737,4 @@ int k,l;
     al_destroy_display(display);
     al_destroy_event_queue(queue);
     al_destroy_timer(timer);
-
-
 }

@@ -99,12 +99,6 @@ typedef struct {
     InformationJeu info;
 } Joueur;
 
-
-
-
-
-
-
 #include "affichage.h"
 #include "jeu.h"
 
