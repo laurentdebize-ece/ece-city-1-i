@@ -481,24 +481,17 @@ void jeu(){
     int yMouse;
     int nbCase = 0;
     InformationJeu plateau;
-     Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
-    //Case informationPlateau;
-    int choix;
+    Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
 
-
-
-
-
+    initialisationCase(tabCase);
     initialiserInfoJeu(&informationJeu);
     coutBatiment = lire_fichier_texte("../informationGlobal.txt");
     plateau = lirePlateauDeBase();
 
-    //informationPlateau = lecture_fichier_texte2("C:\\Clionprojects\\ece-city-1-i\\plateauniveau000.txt");
 
 
 
-
-int k,l;
+    int k,l;
     for (k = 0; k < NOMBRE_DE_LIGNE; k++) {
         printf("\n");
         for (l = 0; l < NOMBRE_DE_COLLONNE; l++) {
@@ -521,25 +514,9 @@ int k,l;
                ,coutBatiment.nombrehabitantsgratteciel);
 
     }
-
-    int ouinon;
-
-    //printf("Voulez vous recuperer la derniere partie jouer\n");
-   // scanf("%d",&ouinon);
     display = al_create_display(LARGEUR_FE, HAUTEUR_FE);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\nVous avez subitement quitte le jeu :/ ?\n\nAvant de continuer taper 1 si vous voulez recuperer les information de votre derniere partie sinon taper 0\nUne fois le jeu lancer selectionner charger sauvegarde pour recuper votre ancien platea");
-    scanf("%d",&choix);
-    if (choix==1){
-
-        informationJeu = lire_information_Joueur(informationJeu);
-    }
-    else
-        informationJeu.argent = 500000;
-
-
     queue = al_create_event_queue();
     timer = al_create_timer(0.1);
-    lire_information_Joueur(informationJeu);
 
 
     //Images
@@ -575,31 +552,6 @@ int k,l;
     images.centrale = al_load_bitmap("../Images/centrale.png");
     images.sauvegarde = al_load_bitmap("../Images/bouton sauvegarde.png");
 
-    if (choix == 1){
-        int i,j;
-        liresauvegardeDuplateau(tabCase);
-        for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
-            for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
-                if ( tabCase[i][j].routePresente == 1){
-                    tabCase[i][j].routePresente = 1;
-                    afficherRoute(tabCase,images);
-
-
-
-
-                }
-
-            }
-
-        }
-
-    }
-    else {
-        initialisationCase(tabCase);
-
-
-    }
-
 
     //Booléens
     etats.fin = 0;
@@ -620,6 +572,7 @@ int k,l;
     etats.eau=0;
     etats.electricite=0;
     etats.demolir=0;
+    etats.choixSauv=0;
 
     //Fonts
     fonts.font1 = al_load_ttf_font("../Fonts/font1.ttf", 40, 0);
@@ -656,11 +609,8 @@ int k,l;
                 }
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
-                if ((event.mouse.button & 1) == 1) {
-                    //choixBoiteAoutil(event, &etats);
-                }
                 if (etats.etatMenuPrincipal) {
-                    choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y);
+                    choixMenuPrincipal(&etats, event.mouse.x, event.mouse.y,&informationJeu,tabCase);
                 } else if (etats.etatMode) {
                     choixMode(&etats, event.mouse.x, event.mouse.y);
                 } else if (etats.etatEchap) {
@@ -688,6 +638,9 @@ int k,l;
             case ALLEGRO_EVENT_TIMER: {
                 if (etats.etatMenuPrincipal) {
                     affichageMenuPrincipal(images, fonts,xMouse,yMouse);
+                    if(!etats.choixSauv){
+                        informationJeu.argent = 500000;
+                    }
                 } else if (etats.etatMode) {
                     affichageMode(images, fonts);
                 } else if (etats.etatEchap) {
@@ -719,8 +672,8 @@ int k,l;
                         afficherRoute(tabCase, images);
                         afficherChateauDeau(tabCase,images);
                         afficherCentraleElectrique(tabCase,images);
-                        afficherHabitation(tabCase,images);
                         ameliorerHabitation(compteur, tabCase,&informationJeu);
+                        afficherHabitation(tabCase,images);
                         afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                         impotTaxe(&informationJeu,compteur);
                     } else if (etats.couche2) {
