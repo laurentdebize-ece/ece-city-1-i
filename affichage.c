@@ -493,8 +493,7 @@ void affichageMenuPrincipal(Images images,Fonts fonts,int x,int y){
 }
 
 
-void choixMenuPrincipal(Etats *etats,int x,int y){
-    Etats choix;
+void choixMenuPrincipal(Etats *etats,int x,int y,InformationJeu* informationJeu,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
     if((x>LARGEUR_FE/2 -75 && x<LARGEUR_FE/2 +75) && (y>HAUTEUR_FE-180 && y<HAUTEUR_FE-100)){
         etats->etatMenuPrincipal=0;
     }
@@ -502,11 +501,11 @@ void choixMenuPrincipal(Etats *etats,int x,int y){
         etats->fin=1;
     }
     if((x>LARGEUR_FE/2 +75 && x<LARGEUR_FE/2 +145) && (y>HAUTEUR_FE-180 && y<HAUTEUR_FE-100)){
-        etats->choix = 1;
-        choix.choix = 1;
-
+        *informationJeu = lire_information_Joueur(*informationJeu);
+        liresauvegardeDuplateau(tabCase);
+        etats->choixSauv=1;
         etats->etatMenuPrincipal=0;
-
+        etats->etatMode=0;
     }
 }
 

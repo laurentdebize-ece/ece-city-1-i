@@ -19,7 +19,7 @@ void afficherModeDeJeu(Etats etats,Fonts fonts);
 
 void affichageMenuPrincipal(Images images,Fonts fonts,int x, int y);
 
-void choixMenuPrincipal(Etats *etats,int x,int y);
+void choixMenuPrincipal(Etats *etats,int x,int y,InformationJeu* informationJeu,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
 
 void affichageMode(Images images,Fonts fonts);
 
