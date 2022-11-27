@@ -54,6 +54,7 @@ typedef struct {
     int habitant;
     int capaciteEau;
     int capaciteElectricite;
+    int plateau0[NOMBRE_DE_LIGNE][NOMBRE_DE_COLLONNE];
 
 }InformationJeu;
 
@@ -84,6 +85,7 @@ typedef struct {
 typedef struct{
     bool fin,etatMenuPrincipal,etatMode,modeCommuniste,modeCapitaliste,etatEchap,couche1,couche2,couche3,etatBoutonReglage,
             etatCouche,route,etatNoClick,habitation,electricite,curseur,eau,demolir;
+    int choix;
 }Etats;
 
 

@@ -1,15 +1,12 @@
-//
-// Created by Kevin Le Heurt on 09/11/2022.
-//
 
 #include "jeu.h"
 #include "stdio.h"
+
 InformationJeu sauvegarde_information_joueur( InformationJeu joueur) {
 
-    FILE *fichier = fopen("C:\\Clionprojects\\ece-city-1-i\\sauvegardeinformationJoueur.txt", "w");
+    FILE *fichier = fopen("../sauvegardeinformationJoueur.txt", "w");
 
     int argent, nombrehabitantsdeLavville;
-
     nombrehabitantsdeLavville = joueur.habitant;
     argent = joueur.argent;
     fscanf(fichier, "%d %d", &argent, &nombrehabitantsdeLavville);
@@ -17,7 +14,24 @@ InformationJeu sauvegarde_information_joueur( InformationJeu joueur) {
     fprintf(fichier, "%d\n", nombrehabitantsdeLavville);
     return joueur;
 }
+InformationJeu lire_information_Joueur(InformationJeu joueur){
+    int argent;
+    int nombrehabitants;
+    int argentDeBase;
 
+    FILE *ouvrir = fopen("../sauvegardeinformationJoueur.txt","r");
+    fscanf(ouvrir,"%d",&argent);
+    fscanf(ouvrir,"%d",&nombrehabitants);
+
+    joueur.argent = argent;
+    joueur.habitant = nombrehabitants;
+    printf("information argent derniere partie : %d\n",argent);
+    printf("information nombre habitants derniere partie : %d",nombrehabitants);
+
+
+    return joueur;
+
+}
 
 CoutBatiment  lire_fichier_texte(char *nomFichier){
     CoutBatiment coutBatiment;
@@ -33,14 +47,241 @@ CoutBatiment  lire_fichier_texte(char *nomFichier){
                &coutBatiment.nombrehabitantscabane,&coutBatiment.nombrehabitantsmaison,&coutBatiment.nombrehabitantsimmeuble,
                &coutBatiment.nombrehabitantsgratteciel,&coutBatiment.nombrehabitantschateauDeau,&coutBatiment.nombrehabitantscentraleElectrique,
                &coutBatiment.nombrehabitantsterrainVague,&coutBatiment.nombrehabitantsterrainVague);
-
     }
     return coutBatiment;
+}
+
+InformationJeu lirePlateauDeBase(){
+    InformationJeu plateau;
+    FILE *ouvrir = fopen("../plateauniveau000.txt","r");
+    for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
+        for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
+            fscanf(ouvrir,"%d",&plateau.plateau0[i][j]);
+
+
+        }
+
+    }
+    return plateau;
+
+}/*
+void liresauvegardeDuplateau(){
+    Case tab[NBHAUTEURCASE][NBLARGEURCASE];
+    FILE *ouvrir = fopen("../sauvegardetemporaire.txt","r");
+    int variable =0;
+
+    for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
+        //for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
+            fscanf(ouvrir,"%d",&variable);
+            if(variable == 1){
+                //tab[i][j].routePresente = 1;
+            //}
+
+        }
+
+
+    }
+
+}*/
+void liresauvegardeDuplateau(Case tabcase[NBHAUTEURCASE][NBLARGEURCASE]){
+    int variable[NBHAUTEURCASE][NBLARGEURCASE];
+    FILE *ouvrire =fopen("C:\\Clionprojects\\ece-city-1-i\\sauvegardetemporaire.txt","r");
+    for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
+        for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
+            fscanf(ouvrire,"%d",&variable[i][j]);
+            if (variable[i][j] == 1){
+                tabcase[i][j].routePresente =1;
+            }
+           if (variable[i][j] == 2){
+               tabcase[i][j].chateauDeauPresent = 1;
+
+            }
+            if (variable[i][j] == 3){
+                tabcase[i][j].centraleElectriquePresente = 1;
+
+            }
+            if (variable[i][j] == 4){
+                tabcase[i][j].habitationPresente = 1;
+
+            }
+
+
+
+        }
+    }
 
 
 }
+void  sauvegarderNouveauPlateau(Case tabcase[NBHAUTEURCASE][NBLARGEURCASE]){
+
+    FILE *ouvrire = fopen("../sauvegardetemporaire.txt","w");
+    for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
+        for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
+            if (tabcase[i][j].routePresente == 1){
+                fprintf(ouvrire,"%d",tabcase[i][j].routePresente);
+                fputc((int) '\n', ouvrire);
+            }
+            if (tabcase[i][j].chateauDeauPresent == 1 ){
+                tabcase[i][j].chateauDeauPresent =2;
+                fprintf(ouvrire,"%d",tabcase[i][j].chateauDeauPresent);
+                tabcase[i][j+1].chateauDeauPresent =0;
+                tabcase[i][j+2].chateauDeauPresent =0;
+                tabcase[i][j+3].chateauDeauPresent =0;
+                tabcase[i][j+4].chateauDeauPresent =0;
+                tabcase[i+1][j].chateauDeauPresent =0;
+                tabcase[i+1][j+1].chateauDeauPresent =0;
+                tabcase[i+1][j+2].chateauDeauPresent =0;
+                tabcase[i+1][j+3].chateauDeauPresent =0;
+                tabcase[i+1][j+4].chateauDeauPresent =0;
+
+                tabcase[i+2][j].chateauDeauPresent =0;
+                tabcase[i+2][j+1].chateauDeauPresent =0;
+                tabcase[i+2][j+2].chateauDeauPresent =0;
+                tabcase[i+2][j+3].chateauDeauPresent =0;
+                tabcase[i+2][j+4].chateauDeauPresent =0;
+
+                tabcase[i+3][j].chateauDeauPresent =0;
+                tabcase[i+3][j+1].chateauDeauPresent =0;
+                tabcase[i+3][j+2].chateauDeauPresent =0;
+                tabcase[i+3][j+3].chateauDeauPresent =0;
+                tabcase[i+3][j+4].chateauDeauPresent =0;
+
+                tabcase[i+4][j].chateauDeauPresent =0;
+                tabcase[i+4][j+1].chateauDeauPresent =0;
+                tabcase[i+4][j+2].chateauDeauPresent =0;
+                tabcase[i+4][j+3].chateauDeauPresent =0;
+                tabcase[i+4][j+4].chateauDeauPresent =0;
+
+                tabcase[i+5][j].chateauDeauPresent =0;
+                tabcase[i+5][j+1].chateauDeauPresent =0;
+                tabcase[i+5][j+2].chateauDeauPresent =0;
+                tabcase[i+5][j+3].chateauDeauPresent =0;
+                tabcase[i+5][j+4].chateauDeauPresent =0;
+
+                tabcase[i+6][j].chateauDeauPresent =0;
+                tabcase[i+6][j+1].chateauDeauPresent =0;
+                tabcase[i+6][j+2].chateauDeauPresent =0;
+                tabcase[i+6][j+3].chateauDeauPresent =0;
+                tabcase[i+6][j+4].chateauDeauPresent =0;
+
+                tabcase[i+7][j].chateauDeauPresent =0;
+                tabcase[i+7][j+1].chateauDeauPresent =0;
+                tabcase[i+7][j+2].chateauDeauPresent =0;
+                tabcase[i+7][j+3].chateauDeauPresent =0;
+                tabcase[i+7][j+4].chateauDeauPresent =0;
 
 
+                fputc((int) '\n', ouvrire);
+
+
+            }
+            if (tabcase[i][j].centraleElectriquePresente == 1 ){
+                tabcase[i][j].centraleElectriquePresente =3;
+                fprintf(ouvrire,"%d",tabcase[i][j].centraleElectriquePresente);
+                tabcase[i][j+1].centraleElectriquePresente =0;
+                tabcase[i][j+2].centraleElectriquePresente =0;
+                tabcase[i][j+3].centraleElectriquePresente =0;
+                tabcase[i][j+4].centraleElectriquePresente =0;
+                tabcase[i+1][j].centraleElectriquePresente =0;
+                tabcase[i+1][j+1].centraleElectriquePresente =0;
+                tabcase[i+1][j+2].centraleElectriquePresente =0;
+                tabcase[i+1][j+3].centraleElectriquePresente =0;
+                tabcase[i+1][j+4].centraleElectriquePresente =0;
+
+                tabcase[i+2][j].centraleElectriquePresente =0;
+                tabcase[i+2][j+1].centraleElectriquePresente =0;
+                tabcase[i+2][j+2].centraleElectriquePresente =0;
+                tabcase[i+2][j+3].centraleElectriquePresente =0;
+                tabcase[i+2][j+4].centraleElectriquePresente =0;
+
+                tabcase[i+3][j].centraleElectriquePresente =0;
+                tabcase[i+3][j+1].centraleElectriquePresente =0;
+                tabcase[i+3][j+2].centraleElectriquePresente =0;
+                tabcase[i+3][j+3].centraleElectriquePresente =0;
+                tabcase[i+3][j+4].centraleElectriquePresente =0;
+
+                tabcase[i+4][j].centraleElectriquePresente =0;
+                tabcase[i+4][j+1].centraleElectriquePresente =0;
+                tabcase[i+4][j+2].centraleElectriquePresente =0;
+                tabcase[i+4][j+3].centraleElectriquePresente =0;
+                tabcase[i+4][j+4].centraleElectriquePresente =0;
+
+                tabcase[i+5][j].centraleElectriquePresente =0;
+                tabcase[i+5][j+1].centraleElectriquePresente =0;
+                tabcase[i+5][j+2].centraleElectriquePresente =0;
+                tabcase[i+5][j+3].centraleElectriquePresente =0;
+                tabcase[i+5][j+4].centraleElectriquePresente =0;
+
+                tabcase[i+6][j].centraleElectriquePresente =0;
+                tabcase[i+6][j+1].centraleElectriquePresente =0;
+                tabcase[i+6][j+2].centraleElectriquePresente =0;
+                tabcase[i+6][j+3].centraleElectriquePresente =0;
+                tabcase[i+6][j+4].centraleElectriquePresente =0;
+
+                tabcase[i+7][j].centraleElectriquePresente =0;
+                tabcase[i+7][j+1].centraleElectriquePresente =0;
+                tabcase[i+7][j+2].centraleElectriquePresente =0;
+                tabcase[i+7][j+3].centraleElectriquePresente =0;
+                tabcase[i+7][j+4].centraleElectriquePresente =0;
+
+
+
+
+
+
+
+                fputc((int) '\n', ouvrire);
+
+
+            }
+            if (tabcase[i][j].habitationPresente == 1){
+                tabcase[i][j].habitationPresente = 4;
+
+                fprintf(ouvrire,"%d",tabcase[i][j].habitationPresente);
+                tabcase[i][j].niveauMaxHabitation = 1;
+                tabcase[i][j+1].habitationPresente =0;
+                tabcase[i][j+2].habitationPresente =0;
+                tabcase[i][j+3].habitationPresente =0;
+                tabcase[i][j+4].habitationPresente =0;
+                tabcase[i+1][j].habitationPresente =0;
+                tabcase[i+1][j+1].habitationPresente =0;
+                tabcase[i+1][j+2].habitationPresente =0;
+                tabcase[i+1][j+3].habitationPresente =0;
+                tabcase[i+1][j+4].habitationPresente =0;
+
+                tabcase[i+2][j].habitationPresente =0;
+                tabcase[i+2][j+1].habitationPresente =0;
+                tabcase[i+2][j+2].habitationPresente =0;
+                tabcase[i+2][j+3].habitationPresente =0;
+                tabcase[i+2][j+4].habitationPresente =0;
+
+                tabcase[i+3][j].habitationPresente =0;
+                tabcase[i+3][j+1].habitationPresente =0;
+                tabcase[i+3][j+2].habitationPresente =0;
+                tabcase[i+3][j+3].habitationPresente =0;
+                tabcase[i+3][j+4].habitationPresente =0;
+
+                tabcase[i+4][j].habitationPresente =0;
+                tabcase[i+4][j+1].habitationPresente =0;
+                tabcase[i+4][j+2].habitationPresente =0;
+                tabcase[i+4][j+3].habitationPresente =0;
+                tabcase[i+4][j+4].habitationPresente =0;
+                fputc((int) '\n', ouvrire);
+            }
+            if(tabcase[i][j].routePresente == 0 && tabcase[i][j].chateauDeauPresent == 0
+            && tabcase[i][j].centraleElectriquePresente == 0 && tabcase[i][j].habitationPresente == 0){
+                fprintf(ouvrire,"%d",0);
+                fputc((int) '\n', ouvrire);
+
+            }
+
+
+
+        }
+        fputc((int) '\n', ouvrire);
+
+    }
+}
 void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
     for (int i = 0; i < NBHAUTEURCASE; i++) {
         for (int j = 0; j < NBLARGEURCASE; j++) {
@@ -58,6 +299,7 @@ void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]){
 }
 
 void initialiserInfoJeu(InformationJeu* informationJeu){
+
     informationJeu->argent = 500000;
     informationJeu->capaciteEau = 0;
     informationJeu->capaciteElectricite = 0;
@@ -240,28 +482,35 @@ void jeu(){
     int xMouse;
     int yMouse;
     int nbCase = 0;
-    Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
+    InformationJeu plateau;
+     Case tabCase[NBHAUTEURCASE][NBLARGEURCASE];
     //Case informationPlateau;
+    int choix;
 
-    initialisationCase(tabCase);
+
+
+
+
     initialiserInfoJeu(&informationJeu);
-    coutBatiment = lire_fichier_texte("C:\\Clionprojects\\ece-city-1-i\\informationGlobal.txt");
+    coutBatiment = lire_fichier_texte("../informationGlobal.txt");
+    plateau = lirePlateauDeBase();
+
     //informationPlateau = lecture_fichier_texte2("C:\\Clionprojects\\ece-city-1-i\\plateauniveau000.txt");
 
 
 
 
-/*int k,l;
+int k,l;
     for (k = 0; k < NOMBRE_DE_LIGNE; k++) {
         printf("\n");
         for (l = 0; l < NOMBRE_DE_COLLONNE; l++) {
-            printf("%d ", informationPlateau.matriceDuplateau[k][l]);
+            printf("%d ", plateau.plateau0[k][l]);
         }
 
 
     }
-*/
-/*
+
+
     for (int i = 0; i !=1 ; i++) {
         printf("prix route = %d\nprix canalisation = %d\nprix ligne electrique = %d\n"
                "prix cabane = %d\nprix maison = %d\nprix immeuble = %d\nprix gratte ciel = %d\n"
@@ -273,12 +522,27 @@ void jeu(){
                ,coutBatiment.chateauDeau,coutBatiment.centraleElectrique,coutBatiment.terrainVague,coutBatiment.caserne,coutBatiment.nombrehabitantscabane,coutBatiment.nombrehabitantsmaison,coutBatiment.nombrehabitantsimmeuble
                ,coutBatiment.nombrehabitantsgratteciel);
 
-    }*/
+    }
 
+    int ouinon;
+
+    //printf("Voulez vous recuperer la derniere partie jouer\n");
+   // scanf("%d",&ouinon);
     display = al_create_display(LARGEUR_FE, HAUTEUR_FE);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\nVous avez subitement quitte le jeu :/ ?\n\nAvant de continuer taper 1 si vous voulez recuperer les information de votre derniere partie sinon taper 0\nUne fois le jeu lancer selectionner charger sauvegarde pour recuper votre ancien platea");
+    scanf("%d",&choix);
+    if (choix==1){
+
+        informationJeu = lire_information_Joueur(informationJeu);
+    }
+    else
+        informationJeu.argent = 500000;
+
 
     queue = al_create_event_queue();
     timer = al_create_timer(0.1);
+    lire_information_Joueur(informationJeu);
+
 
     //Images
     if(LARGEUR_FE==1024) {
@@ -313,6 +577,32 @@ void jeu(){
     images.centrale = al_load_bitmap("../Images/centrale.png");
     images.sauvegarde = al_load_bitmap("../Images/bouton sauvegarde.png");
 
+    if (choix == 1){
+        int i,j;
+        liresauvegardeDuplateau(tabCase);
+        for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
+            for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
+                if ( tabCase[i][j].routePresente == 1){
+                    tabCase[i][j].routePresente = 1;
+                    afficherRoute(tabCase,images);
+
+
+
+
+                }
+
+            }
+
+        }
+
+    }
+    else {
+        initialisationCase(tabCase);
+
+
+    }
+
+
     //Booléens
     etats.fin = 0;
     etats.etatMenuPrincipal = 1;
@@ -343,6 +633,7 @@ void jeu(){
     al_register_event_source(queue, al_get_mouse_event_source());
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_set_window_position(display, 0, 0);
+
 
     al_start_timer(timer);
 
@@ -427,12 +718,13 @@ void jeu(){
                         if (!etats.etatNoClick) {
                             definirCaseRoute(etats.route, tabCase, xMouse, yMouse, mouse.buttons,&informationJeu,coutBatiment);
                         }
-                        ameliorerHabitation(compteur, tabCase,&informationJeu);
                         //chateauDeauConnexe(tabCase,compteur);
                         afficherRoute(tabCase, images);
                         afficherChateauDeau(tabCase,images);
                         afficherCentraleElectrique(tabCase,images);
                         afficherHabitation(tabCase,images);
+                        ameliorerHabitation(compteur, tabCase,&informationJeu);
+
                         afficherCaseCurseur(x1, x2, y1, y2,tabCase, images,etats);
                         impotTaxe(&informationJeu,compteur);
                     } else if (etats.couche2) {
@@ -445,7 +737,10 @@ void jeu(){
         }
     }
     sauvegarde_information_joueur(informationJeu);
+    sauvegarderNouveauPlateau(tabCase);
     al_destroy_display(display);
     al_destroy_event_queue(queue);
     al_destroy_timer(timer);
+
+
 }
