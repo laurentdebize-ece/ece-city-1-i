@@ -84,7 +84,7 @@ void liresauvegardeDuplateau(){
 }*/
 void liresauvegardeDuplateau(Case tabcase[NBHAUTEURCASE][NBLARGEURCASE]){
     int variable[NBHAUTEURCASE][NBLARGEURCASE];
-    FILE *ouvrire =fopen("C:\\Clionprojects\\ece-city-1-i\\sauvegardetemporaire.txt","r");
+    FILE *ouvrire =fopen("../sauvegardetemporaire.txt","r");
     for (int i = 0; i < NOMBRE_DE_LIGNE; i++) {
         for (int j = 0; j < NOMBRE_DE_COLLONNE; j++) {
             fscanf(ouvrire,"%d",&variable[i][j]);
