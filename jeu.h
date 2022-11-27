@@ -4,6 +4,10 @@
 CoutBatiment lire_fichier_texte(char *nomFichier);
 //Case lecture_fichier_texte2(char *nomFichier);
 InformationJeu sauvegarde_information_joueur( InformationJeu joueur);
+InformationJeu lire_information_Joueur(InformationJeu joueur);
+InformationJeu lirePlateauDeBase();
+void sauvegarderNouveauPlateau(Case tabcase[NBHAUTEURCASE][NBLARGEURCASE]);
+void liresauvegardeDuplateau(Case tabcase[NBHAUTEURCASE][NBLARGEURCASE]);
         void jeu();
 void jeu1();
 void initialisationCase(Case tabCase[NBHAUTEURCASE][NBLARGEURCASE]);
