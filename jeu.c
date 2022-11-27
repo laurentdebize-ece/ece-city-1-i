@@ -245,7 +245,7 @@ void jeu(){
 
     initialisationCase(tabCase);
     initialiserInfoJeu(&informationJeu);
-    coutBatiment = lire_fichier_texte("C:\\Clionprojects\\ece-city-1-i\\informationGlobal.txt");
+    coutBatiment = lire_fichier_texte("../informationGlobal.txt");
     //informationPlateau = lecture_fichier_texte2("C:\\Clionprojects\\ece-city-1-i\\plateauniveau000.txt");
 
 

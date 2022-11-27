@@ -562,6 +562,18 @@ void afficherDeuxiemeCouche(Images images,Fonts fonts,Case tabCase[NBHAUTEURCASE
 void afficherTroisiemeCouche(Images images,Fonts fonts,Case tabCase[NBHAUTEURCASE][NBLARGEURCASE],InformationJeu informationJeu){
     al_draw_bitmap(images.couches,XDepart,YDepart,0);
     al_draw_textf(fonts.font1, al_map_rgb(0,0,0),XDepart,0,0,"Eau");
+    for (int i = 0; i < NBHAUTEURCASE; i++) {
+        for (int j = 0; j < NBLARGEURCASE; j++) {
+            if (tabCase[i][j].routePresente && informationJeu.capaciteEau>0){
+                al_draw_filled_rectangle(XDepart + (j * LARGEURCASE),YDepart + (i * LARGEURCASE),XDepart + (j * LARGEURCASE)+LARGEURCASE,YDepart + (i * LARGEURCASE)+LARGEURCASE,
+                                         al_map_rgb(95,158,160));
+            }
+            if(tabCase[i][j].habitationPresente && tabCase[i][j].numeroMaison==tabCase[i+2][j+2].numeroMaison){
+                al_draw_rectangle(XDepart+(j*LARGEURCASE),YDepart+(i*LARGEURCASE),XDepart+(j*LARGEURCASE)+3*LARGEURCASE,YDepart+(i*LARGEURCASE)+3*LARGEURCASE,
+                                  al_map_rgb(0,0,0),5);
+            }
+        }
+    }
 }
 
 void afficherMenuBoutonOutil(Images images,Etats *etats,Fonts fonts,int x,int y){
@@ -687,6 +699,12 @@ void choixBoutonOutil(Etats *etats,int x,int y){
         }else{
             etats->etatCouche=1;
         }//Bouton couche
+        etats->habitation=0;
+        etats->eau=0;
+        etats->electricite=0;
+        etats->demolir=0;
+        etats->curseur = 0;
+        etats->route=0;
     }
     if(!etats->etatCouche) {
         if ((x > LARGEUR_FE - 195 && x < LARGEUR_FE - 145) && (y > HAUTEUR_FE - 100 && y < HAUTEUR_FE - 50)) {
